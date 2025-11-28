@@ -120,63 +120,52 @@
       </div>
 
       <div class="modal-body">
-
         <form id="rentForm">
 
           <!-- DATA PEMINJAM -->
           <h6 class="fw-bold mb-2">1. Data Peminjam</h6>
-
           <div class="mb-3">
             <label class="form-label">Nama Lengkap</label>
-            <input type="text" class="form-control" required>
+            <input type="text" id="namaPeminjam" class="form-control" required>
           </div>
-
           <div class="mb-3">
             <label class="form-label">NRP</label>
-            <input type="text" class="form-control" required>
+            <input type="text" id="nrpPeminjam" class="form-control" required>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Kontak (WA/Email)</label>
-            <input type="text" class="form-control" required>
+            <input type="text" id="kontakPeminjam" class="form-control" required>
           </div>
 
           <hr>
 
           <!-- DETAIL SEWA -->
           <h6 class="fw-bold mb-2">2. Detail Penyewaan</h6>
-
           <div class="mb-3">
             <label class="form-label">Nama Barang</label>
-            <input type="text" class="form-control" required>
+            <input type="text" id="namaBarang" class="form-control" required>
           </div>
-
           <div class="row">
             <div class="col-md-6 mb-3">
               <label class="form-label">Tanggal Mulai</label>
-              <input type="date" class="form-control" required>
+              <input type="date" id="tglMulai" class="form-control" required>
             </div>
-
             <div class="col-md-6 mb-3">
               <label class="form-label">Tanggal Selesai</label>
-              <input type="date" class="form-control" required>
+              <input type="date" id="tglSelesai" class="form-control" required>
             </div>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Lokasi Pengambilan</label>
-            <input type="text" class="form-control" required>
+            <input type="text" id="lokasi" class="form-control" required>
           </div>
-
           <div class="form-check mt-2 mb-3">
-            <input class="form-check-input" type="checkbox" required>
+            <input class="form-check-input" id="setujuPeminjam" type="checkbox" required>
             <label class="form-check-label">Saya bertanggung jawab atas barang selama masa sewa.</label>
           </div>
 
           <button type="submit" class="btn btn-primary w-100">Sewa Sekarang</button>
-
         </form>
-
       </div>
 
     </div>
@@ -194,50 +183,42 @@
       </div>
 
       <div class="modal-body">
-
         <form id="addForm">
 
           <!-- IDENTITAS MAHASISWA -->
           <h6 class="fw-bold mb-2">1. Identitas Mahasiswa</h6>
-
           <div class="mb-3">
             <label class="form-label">Nama Lengkap</label>
-            <input type="text" class="form-control" required>
+            <input type="text" id="namaMahasiswa" class="form-control" required>
           </div>
-
           <div class="mb-3">
             <label class="form-label">NRP</label>
-            <input type="text" class="form-control" required>
+            <input type="text" id="nrpMahasiswa" class="form-control" required>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Program Studi / Fakultas</label>
-            <input type="text" class="form-control" required>
+            <input type="text" id="prodiMahasiswa" class="form-control" required>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Upload Foto KTM</label>
-            <input type="file" class="form-control" accept="image/*" required>
+            <input type="file" id="fotoKTM" class="form-control" accept="image/*" required>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Kontak WA / Email Kampus</label>
-            <input type="text" class="form-control" required>
+            <input type="text" id="kontakMahasiswa" class="form-control" required>
           </div>
 
           <hr>
 
           <!-- INFORMASI BARANG -->
           <h6 class="fw-bold mb-2">2. Informasi Barang</h6>
-
           <div class="mb-3">
             <label class="form-label">Nama Barang</label>
-            <input type="text" class="form-control" required>
+            <input type="text" id="namaBarangAdd" class="form-control" required>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Kategori Barang</label>
-            <select class="form-select" required>
+            <select id="kategoriBarang" class="form-select" required>
               <option selected disabled>Pilih Kategori</option>
               <option>Peralatan Elektronik</option>
               <option>Peralatan Hobi</option>
@@ -246,90 +227,79 @@
               <option>Lainnya</option>
             </select>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Deskripsi Barang</label>
-            <textarea class="form-control" rows="3"></textarea>
+            <textarea id="deskripsiBarang" class="form-control" rows="3"></textarea>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Kondisi Barang</label>
-            <select class="form-select">
+            <select id="kondisiBarang" class="form-select">
               <option>Baru</option>
               <option>Sangat Baik</option>
               <option>Baik</option>
               <option>Layak</option>
             </select>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Aturan Penggunaan</label>
-            <textarea class="form-control" rows="2"></textarea>
+            <textarea id="aturanPenggunaan" class="form-control" rows="2"></textarea>
           </div>
 
           <hr>
 
-          <!-- HARGA & SKEMA SEWA -->
+          <!-- HARGA & KETERSEDIAAN -->
           <h6 class="fw-bold mb-2">3. Harga & Ketersediaan</h6>
-
           <div class="row">
             <div class="col-md-6 mb-3">
               <label class="form-label">Harga Sewa / Hari</label>
-              <input type="number" class="form-control" required>
+              <input type="number" id="hargaSewa" class="form-control" required>
             </div>
             <div class="col-md-6 mb-3">
               <label class="form-label">Deposit / Jaminan</label>
-              <input type="number" class="form-control">
+              <input type="number" id="deposit" class="form-control">
             </div>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Stok Barang</label>
-            <input type="number" class="form-control" required>
+            <input type="number" id="stokBarang" class="form-control" required>
           </div>
 
           <hr>
 
           <!-- FOTO BARANG -->
           <h6 class="fw-bold mb-2">4. Foto Barang</h6>
-
           <div class="mb-3">
             <label class="form-label">Upload Foto (2–4 Foto)</label>
-            <input type="file" class="form-control" accept="image/*" multiple required>
+            <input type="file" id="fotoBarang" class="form-control" accept="image/*" multiple required>
           </div>
 
           <hr>
 
           <!-- LOKASI -->
           <h6 class="fw-bold mb-2">5. Lokasi Pengambilan</h6>
-
           <div class="mb-3">
             <label class="form-label">Lokasi Penjemputan</label>
-            <input type="text" class="form-control" required>
+            <input type="text" id="lokasiBarang" class="form-control" required>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Catatan Penjemputan</label>
-            <textarea class="form-control" rows="2"></textarea>
+            <textarea id="catatanPenjemputan" class="form-control" rows="2"></textarea>
           </div>
 
           <hr>
 
           <!-- PERSETUJUAN -->
           <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" required>
+            <input class="form-check-input" id="setujuPlatform" type="checkbox" required>
             <label class="form-check-label">Saya setuju dengan ketentuan platform.</label>
           </div>
-
           <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" required>
+            <input class="form-check-input" id="tanggungJawab" type="checkbox" required>
             <label class="form-check-label">Saya bertanggung jawab jika barang hilang/rusak.</label>
           </div>
 
           <button type="submit" class="btn btn-success w-100">Tambah Barang</button>
-
         </form>
-
       </div>
 
     </div>
@@ -337,16 +307,73 @@
 </div>
 
 <script>
-  document.getElementById("rentBtn").addEventListener("click", function () {
-    var rentModal = new bootstrap.Modal(document.getElementById("rentModal"));
-    rentModal.show();
+  // Tampilkan modal
+  document.getElementById("rentBtn").addEventListener("click", () => {
+    new bootstrap.Modal(document.getElementById("rentModal")).show();
+  });
+  document.getElementById("addBtn").addEventListener("click", () => {
+    new bootstrap.Modal(document.getElementById("addModal")).show();
   });
 
-  document.getElementById("addBtn").addEventListener("click", function () {
-    var addModal = new bootstrap.Modal(document.getElementById("addModal"));
-    addModal.show();
+  // Submit form rent
+  document.getElementById("rentForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const data = {
+      nama: document.getElementById("namaPeminjam").value,
+      nrp: document.getElementById("nrpPeminjam").value,
+      kontak: document.getElementById("kontakPeminjam").value,
+      namaBarang: document.getElementById("namaBarang").value,
+      tglMulai: document.getElementById("tglMulai").value,
+      tglSelesai: document.getElementById("tglSelesai").value,
+      lokasi: document.getElementById("lokasi").value
+    };
+    // Ganti WEB_APP_URL_ANDA dengan URL Web App Google Sheets
+    fetch("https://script.google.com/macros/s/AKfycbz7Ef_fyG6jwGdc8o_BvgDBn7u-WDa0GTHnstRM_-QhL64mtk8YDbbTFPNg5qQ-L-bH/exec", {
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => {
+      alert("Data berhasil dikirim!");
+      this.reset();
+      bootstrap.Modal.getInstance(document.getElementById("rentModal")).hide();
+    })
+    .catch(err => alert("Terjadi kesalahan: " + err));
+  });
+
+  // Submit form add item
+  document.getElementById("addForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const data = {
+      nama: document.getElementById("namaMahasiswa").value,
+      nrp: document.getElementById("nrpMahasiswa").value,
+      prodi: document.getElementById("prodiMahasiswa").value,
+      kontak: document.getElementById("kontakMahasiswa").value,
+      namaBarang: document.getElementById("namaBarangAdd").value,
+      kategori: document.getElementById("kategoriBarang").value,
+      deskripsi: document.getElementById("deskripsiBarang").value,
+      kondisi: document.getElementById("kondisiBarang").value,
+      aturan: document.getElementById("aturanPenggunaan").value,
+      harga: document.getElementById("hargaSewa").value,
+      deposit: document.getElementById("deposit").value,
+      stok: document.getElementById("stokBarang").value,
+      lokasi: document.getElementById("lokasiBarang").value,
+      catatan: document.getElementById("catatanPenjemputan").value
+    };
+    fetch("https://script.google.com/macros/s/AKfycbz7Ef_fyG6jwGdc8o_BvgDBn7u-WDa0GTHnstRM_-QhL64mtk8YDbbTFPNg5qQ-L-bH/exec", {
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => {
+      alert("Barang berhasil ditambahkan!");
+      this.reset();
+      bootstrap.Modal.getInstance(document.getElementById("addModal")).hide();
+    })
+    .catch(err => alert("Terjadi kesalahan: " + err));
   });
 </script>
+
 
 <!-- ======================= CATEGORY ======================= -->
 <section id="category" style=" padding: 80px; background-color: #BE9FE1;">
@@ -674,3 +701,4 @@ function openRentFromCategory(namaBarang) {
 
 </body>
 </html>
+
