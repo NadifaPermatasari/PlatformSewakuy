@@ -1,445 +1,190 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Sewakuy</title>
-
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Seller Dashboard - Sewakuy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body{background:#F7F7FB}
+    .card img{height:140px; object-fit:cover}
+  </style>
 </head>
-<body style="background-color:#F1F1F6;">
+<body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
-  <div class="container py-1">
-    <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="assets/logo.png" alt="logo" style="height:38px; margin-right:8px;">
-      Sewakuy
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="nav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#home">Beranda</a></li>
-        <li class="nav-item"><a class="nav-link" href="#category">Kategori</a></li>
-        <li class="nav-item"><a class="nav-link" href="#about">Tentang</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact">Kontak</a></li>
-        <li class="nav-item"><a class="nav-link text-primary" href="seller.html">Seller View</a></li>
-      </ul>
-    </div>
+<nav class="navbar navbar-light bg-white shadow-sm">
+  <div class="container">
+    <span class="navbar-brand fw-bold">Seller Panel</span>
+    <a href="index.html" class="btn btn-secondary">Kembali ke Home</a>
   </div>
 </nav>
 
-<!-- HOME -->
-<section id="home" style="margin-top:70px;">
-  <div class="container-fluid p-0 position-relative">
-    <video autoplay muted loop class="w-100" style="height:90vh; object-fit:cover;">
-      <source src="assets/Bg.mp4" type="video/mp4">
-    </video>
+<div class="container py-4">
+  <h2 class="fw-bold mb-4">📦 Dashboard Seller</h2>
 
-    <div class="position-absolute top-50 start-50 translate-middle text-center text-dark w-100 px-3">
-      <h1 class="fw-bold">Sewa Barang Jadi Mudah</h1>
-      <p>Platform mahasiswa untuk mahasiswa — sewa cepat, aman, dan terjangkau.</p>
-      <div class="d-flex justify-content-center gap-3 mt-3">
-        <button id="rentBtn" class="btn btn-secondary" style="width:160px">Sewa Sekarang</button>
-        <button id="addBtn" class="btn btn-secondary" style="width:160px">Daftarkan Barangmu</button>
-      </div>
+  <ul class="nav nav-tabs mb-3">
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#itemsTab">Barang Terdaftar</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#historyTab">Riwayat Penyewaan</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="itemsTab">
+      <div class="row g-3" id="sellerItemList"></div>
     </div>
-  </div>
-</section>
 
-<!-- RENT MODAL -->
-<div class="modal fade" id="rentModal" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="fw-bold">📦 Form Penyewaan</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <form id="rentForm">
-          <h6 class="fw-bold">1. Data Peminjam</h6>
-          <input id="renterName" class="form-control mb-2" placeholder="Nama" required>
-          <input id="renterNRP" class="form-control mb-2" placeholder="NRP" required>
-          <input id="renterContact" class="form-control mb-2" placeholder="Kontak (WA/Email)" required>
-
-          <hr>
-          <h6 class="fw-bold">2. Detail Penyewaan</h6>
-          <input id="namaBarangRent" class="form-control mb-2" placeholder="Nama Barang" required readonly>
-          <div class="row">
-            <div class="col-md-6"><input id="tglMulai" type="date" class="form-control mb-2" required></div>
-            <div class="col-md-6"><input id="tglSelesai" type="date" class="form-control mb-2" required></div>
-          </div>
-
-          <button type="submit" class="btn btn-primary w-100 mt-2">Sewa Sekarang</button>
-        </form>
-      </div>
+    <div class="tab-pane fade" id="historyTab">
+      <div id="rentalHistoryList"></div>
     </div>
   </div>
 </div>
 
-<!-- ADD ITEM MODAL -->
-<div class="modal fade" id="addModal" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="fw-bold">🛒 Tambah Barang Sewa</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <form id="addForm">
-          <h6 class="fw-bold">1. Identitas Mahasiswa</h6>
-          <input id="mhsNama" class="form-control mb-2" placeholder="Nama" required>
-          <input id="mhsNRP" class="form-control mb-2" placeholder="NRP" required>
-          <input id="mhsProdi" class="form-control mb-2" placeholder="Program Studi" required>
-          <input id="mhsKontak" class="form-control mb-2" placeholder="WA / Email Kampus" required>
-          <input id="mhsKTM" type="file" class="form-control mb-3" accept="image/*" required>
-
-          <hr>
-          <h6 class="fw-bold">2. Informasi Barang</h6>
-          <input id="barangNama" class="form-control mb-2" placeholder="Nama Barang" required>
-          <select id="barangKategori" class="form-select mb-2" required>
-            <option disabled selected>Pilih Kategori</option>
-            <option>Peralatan Elektronik</option>
-            <option>Peralatan Hobi</option>
-            <option>Aksesoris Pendukung</option>
-            <option>Peralatan Teknologi</option>
-            <option>Peralatan Event</option>
-            <option>Lainnya</option>
-          </select>
-          <textarea id="barangDeskripsi" class="form-control mb-2" rows="3" placeholder="Deskripsi"></textarea>
-          <select id="barangKondisi" class="form-select mb-2">
-            <option>Baru</option><option>Sangat Baik</option><option>Baik</option><option>Layak</option>
-          </select>
-          <textarea id="barangAturan" class="form-control mb-2" rows="2" placeholder="Aturan penggunaan"></textarea>
-
-          <hr>
-          <h6 class="fw-bold">3. Harga & Stok</h6>
-          <input id="barangHarga" type="number" class="form-control mb-2" placeholder="Harga per Hari" required>
-          <input id="barangDeposit" type="number" class="form-control mb-2" placeholder="Deposit (opsional)">
-          <input id="barangStok" type="number" class="form-control mb-2" placeholder="Stok Barang" required>
-
-          <hr>
-          <h6 class="fw-bold">4. Foto Barang (2–4 foto)</h6>
-          <input id="barangFoto" type="file" class="form-control mb-3" multiple accept="image/*" required>
-
-          <hr>
-          <h6 class="fw-bold">5. Lokasi Pengambilan</h6>
-          <input id="barangLokasi" class="form-control mb-2" placeholder="Lokasi Penjemputan" required>
-          <textarea id="barangCatatan" class="form-control mb-3" rows="2" placeholder="Catatan"></textarea>
-
-          <div class="form-check mb-2">
-            <input id="agree1" class="form-check-input" type="checkbox" required>
-            <label class="form-check-label">Saya setuju ketentuan platform</label>
-          </div>
-          <div class="form-check mb-3">
-            <input id="agree2" class="form-check-input" type="checkbox" required>
-            <label class="form-check-label">Saya bertanggung jawab jika barang hilang/rusak</label>
-          </div>
-
-          <button type="submit" class="btn btn-success w-100">Tambah Barang</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- CATEGORY -->
-<section id="category" style="padding:80px; background:#BE9FE1;">
-  <div class="container text-center">
-    <h2 class="fw-bold mb-4">Kategori Barang</h2>
-    <div class="row g-3" id="categoryCards">
-      <!-- static category cards (visual), onclick opens modal -->
-      <div class="col-6 col-md-4 col-lg-2">
-        <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Elektronik')">
-          <img src="assets/Peralatan Elektronik.jpg" class="category-image" alt="">
-          <h6 class="fw-bold">Peralatan Elektronik</h6>
-        </div>
-      </div>
-      <div class="col-6 col-md-4 col-lg-2">
-        <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Hobi')">
-          <img src="assets/Hobi.jpg" class="category-image" alt="">
-          <h6 class="fw-bold">Peralatan Hobi</h6>
-        </div>
-      </div>
-      <div class="col-6 col-md-4 col-lg-2">
-        <div class="card p-3 shadow-sm h-100" onclick="openCategory('Aksesoris Pendukung')">
-          <img src="assets/Aksesoris.jpg" class="category-image" alt="">
-          <h6 class="fw-bold">Aksesoris Pendukung</h6>
-        </div>
-      </div>
-      <div class="col-6 col-md-4 col-lg-2">
-        <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Teknologi')">
-          <img src="assets/Teknologi.png" class="category-image" alt="">
-          <h6 class="fw-bold">Peralatan Teknologi</h6>
-        </div>
-      </div>
-      <div class="col-6 col-md-4 col-lg-2">
-        <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Event')">
-          <img src="assets/Event.jpg" class="category-image" alt="">
-          <h6 class="fw-bold">Peralatan Event</h6>
-        </div>
-      </div>
-      <div class="col-6 col-md-4 col-lg-2">
-        <div class="card p-3 shadow-sm h-100" onclick="openCategory('Lainnya')">
-          <img src="assets/Lainnya.jpg" class="category-image" alt="">
-          <h6 class="fw-bold">Lainnya</h6>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CATEGORY MODAL -->
-<div class="modal fade" id="categoryModal" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 id="categoryTitle" class="fw-bold"></h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row g-3" id="categoryItems"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<section id="about" style="padding:60px 20px; background:#F1F1F6;">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-6 mb-3"><img src="assets/sewa.png" class="img-fluid rounded" alt=""></div>
-      <div class="col-md-6">
-        <h2 class="fw-bold">Tentang Sewakuy</h2>
-        <p class="text-muted">Platform penyewaan berbagai peralatan untuk kebutuhan kampus: elektronik, hobi, event, & teknologi.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact" style="padding:40px; background:#BE9FE1;">
-  <div class="container">
-    <h2 class="text-center fw-bold mb-4">Contact Us</h2>
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <form id="contactForm" class="p-4 bg-white rounded shadow-sm">
-          <div class="mb-2"><input id="cname" class="form-control" placeholder="Nama" required></div>
-          <div class="mb-2"><input id="cemail" type="email" class="form-control" placeholder="Email" required></div>
-          <div class="mb-2"><textarea id="cmessage" class="form-control" rows="4" placeholder="Pesan" required></textarea></div>
-          <button type="submit" class="btn btn-primary w-100">Kirim Pesan</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="text-center text-light p-3" style="background:#BE9FE1;">
-  <div class="container">created <i class="bi bi-heart-fill"></i> by Kelompok 3 KBT</div>
-</footer>
-
-<!-- SCRIPTS -->
+<!-- scripts -->
 <script>
-// helper: convert File -> base64
-function toBase64(file){
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = () => res(r.result);
-    r.onerror = rej;
-    r.readAsDataURL(file);
-  });
-}
-
-// short refs
-const addModal = document.getElementById('addModal');
-const rentModal = document.getElementById('rentModal');
-const addForm = document.getElementById('addForm');
-const rentForm = document.getElementById('rentForm');
-const categoryItems = document.getElementById('categoryItems');
-const categoryTitle = document.getElementById('categoryTitle');
-
-// show modals
-document.getElementById("rentBtn").onclick = () => new bootstrap.Modal(rentModal).show();
-document.getElementById("addBtn").onclick = () => new bootstrap.Modal(addModal).show();
-
-// ensure categoryDB exists
-if(!localStorage.getItem('categoryDB')){
-  localStorage.setItem('categoryDB', JSON.stringify({
-    "Peralatan Elektronik": [],
-    "Peralatan Hobi": [],
-    "Aksesoris Pendukung": [],
-    "Peralatan Teknologi": [],
-    "Peralatan Event": [],
-    "Lainnya": []
-  }));
-}
-
-// ADD ITEM (with base64 image)
-addForm.addEventListener('submit', async function(e){
-  e.preventDefault();
-
-  // convert foto files to base64
-  const files = document.getElementById('barangFoto').files;
-  const fotos = [];
-  for (let f of files) fotos.push(await toBase64(f));
-
-  // convert KTM
-  const ktmFile = document.getElementById('mhsKTM').files[0];
-  const ktmBase64 = ktmFile ? await toBase64(ktmFile) : null;
-
-  const item = {
-    id: 'BRG-' + Date.now(),
-    // mahasiswa
-    mhsNama: document.getElementById('mhsNama').value,
-    mhsNRP: document.getElementById('mhsNRP').value,
-    mhsProdi: document.getElementById('mhsProdi').value,
-    mhsKontak: document.getElementById('mhsKontak').value,
-    mhsKTM: ktmBase64,
-    // barang
-    nama: document.getElementById('barangNama').value,
-    kategori: document.getElementById('barangKategori').value,
-    deskripsi: document.getElementById('barangDeskripsi').value,
-    kondisi: document.getElementById('barangKondisi').value,
-    aturan: document.getElementById('barangAturan').value,
-    harga: Number(document.getElementById('barangHarga').value) || 0,
-    deposit: Number(document.getElementById('barangDeposit').value) || 0,
-    stok: Number(document.getElementById('barangStok').value) || 0,
-    lokasi: document.getElementById('barangLokasi').value,
-    catatan: document.getElementById('barangCatatan').value,
-    foto: fotos,
-    status: 'Tersedia',
-    tanggalInput: new Date().toISOString()
-  };
-
-  // save to categoryDB
-  const categoryDB = JSON.parse(localStorage.getItem('categoryDB'));
-  if(!categoryDB[item.kategori]) categoryDB[item.kategori] = [];
-  categoryDB[item.kategori].push(item);
-  localStorage.setItem('categoryDB', JSON.stringify(categoryDB));
-
-  // save to sellerItems for seller view
-  const sellerItems = JSON.parse(localStorage.getItem('sellerItems') || '[]');
-  sellerItems.push(item);
-  localStorage.setItem('sellerItems', JSON.stringify(sellerItems));
-
-  // reset & close
-  addForm.reset();
-  bootstrap.Modal.getInstance(addModal).hide();
-  alert('Barang berhasil ditambahkan!');
-});
-
-// openCategory: show items in a category with Sewa button (stok-aware)
-function openCategory(categoryName){
-  const categoryModal = new bootstrap.Modal(document.getElementById('categoryModal'));
-  categoryTitle.innerText = categoryName;
-  categoryItems.innerHTML = '';
-
-  const categoryDB = JSON.parse(localStorage.getItem('categoryDB')) || {};
-  const sellerItems = JSON.parse(localStorage.getItem('sellerItems') || '[]');
-  const items = categoryDB[categoryName] || [];
-
-  if(items.length === 0){
-    categoryItems.innerHTML = `<p class="text-center text-muted">Belum ada barang di kategori ini.</p>`;
-    categoryModal.show();
-    return;
-  }
-
+// load items
+function loadSellerItems(){
+  const items = JSON.parse(localStorage.getItem('sellerItems') || '[]');
+  const wrap = document.getElementById('sellerItemList');
+  wrap.innerHTML = '';
+  if(items.length===0){ wrap.innerHTML = '<p class="text-muted text-center">Belum ada barang terdaftar.</p>'; return;}
   for(const it of items){
-    // get current stock from sellerItems to stay up-to-date
-    const official = sellerItems.find(s => s.id === it.id) || it;
-    const stok = official.stok || 0;
-
-    const col = document.createElement('div');
-    col.className = 'col-md-4';
-    col.innerHTML = `
-      <div class="card shadow-sm h-100 p-2">
-        <img src="${it.foto[0] || ''}" style="height:150px; object-fit:cover;" class="card-img-top" alt="">
-        <div class="card-body">
-          <h5 class="fw-bold">${it.nama}</h5>
-          <p class="small mb-1">${it.deskripsi || '-'}</p>
-          <p class="mb-1"><b>Harga:</b> Rp ${it.harga.toLocaleString()}</p>
-          <p class="mb-1"><b>Stok:</b> ${stok}</p>
-          <button class="btn btn-primary w-100 mt-2" ${stok===0? 'disabled':''} onclick="openRentFromCategory('${it.id}')">
-            ${stok===0 ? 'Stok Habis' : 'Sewa Sekarang'}
-          </button>
+    wrap.innerHTML += `
+      <div class="col-md-4">
+        <div class="card shadow-sm h-100 p-2">
+          <img src="${it.foto[0]||''}" class="card-img-top" alt="">
+          <div class="card-body">
+            <h5 class="fw-bold">${it.nama}</h5>
+            <p class="mb-1"><b>Kategori:</b> ${it.kategori}</p>
+            <p class="mb-1"><b>Harga:</b> Rp ${it.harga.toLocaleString()}</p>
+            <p class="mb-1"><b>Stok:</b> ${it.stok}</p>
+            <div class="d-flex gap-2 mt-3">
+              <button class="btn btn-warning btn-sm" onclick="editItem('${it.id}')">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteItem('${it.id}')">Hapus</button>
+            </div>
+          </div>
         </div>
       </div>
     `;
-    categoryItems.appendChild(col);
   }
-
-  categoryModal.show();
 }
 
-// openRentFromCategory: auto-fill name and show rent modal
-function openRentFromCategory(itemId){
-  const sellerItems = JSON.parse(localStorage.getItem('sellerItems') || '[]');
-  const item = sellerItems.find(i => i.id === itemId);
-  if(!item){ alert('Barang tidak ditemukan'); return; }
-
-  document.getElementById('namaBarangRent').value = item.nama;
-  new bootstrap.Modal(rentModal).show();
+// load rental history
+function loadRentHistory(){
+  const rentals = JSON.parse(localStorage.getItem('rentalHistory') || '[]');
+  const items = JSON.parse(localStorage.getItem('sellerItems') || '[]');
+  const wrap = document.getElementById('rentalHistoryList');
+  wrap.innerHTML = '';
+  if(rentals.length===0){ wrap.innerHTML = '<p class="text-muted text-center">Belum ada transaksi.</p>'; return;}
+  for(const r of rentals){
+    const barang = items.find(i => i.id===r.itemId) || {};
+    wrap.innerHTML += `
+      <div class="card mb-3 shadow-sm p-3">
+        <div class="row">
+          <div class="col-md-3"><img src="${barang.foto?.[0]||''}" class="w-100 rounded"></div>
+          <div class="col-md-9">
+            <h5 class="fw-bold">${barang.nama || 'Barang terhapus'}</h5>
+            <p><b>Penyewa:</b> ${r.penyewa} (${r.nrp})</p>
+            <p><b>Kontak:</b> ${r.kontak}</p>
+            <p><b>Periode:</b> ${r.tglMulai || '-'} → ${r.tglSelesai || '-'}</p>
+            <p><b>Status:</b> <span class="badge ${r.status==='Dikembalikan'?'bg-success':'bg-warning text-dark'}">${r.status}</span></p>
+            ${r.status==='Sedang Disewa' ? `<button class="btn btn-success btn-sm mt-2" onclick="returnItem('${r.rentId}')">Tandai Dikembalikan</button>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }
 }
 
-// rentForm: create rental and decrement stock
-rentForm.addEventListener('submit', function(e){
-  e.preventDefault();
-  const penyewa = document.getElementById('renterName').value;
-  const nrp = document.getElementById('renterNRP').value;
-  const kontak = document.getElementById('renterContact').value;
-  const namaBarang = document.getElementById('namaBarangRent').value;
-  const tglMulai = document.getElementById('tglMulai').value;
-  const tglSelesai = document.getElementById('tglSelesai').value;
-
+// edit item (simple prompt edit)
+function editItem(id){
   let items = JSON.parse(localStorage.getItem('sellerItems') || '[]');
-  const item = items.find(i => i.nama === namaBarang);
-  if(!item){ alert('Barang tidak ditemukan'); return; }
-  if(item.stok <= 0){ alert('Stok tidak mencukupi'); return; }
+  const idx = items.findIndex(i => i.id===id);
+  if(idx===-1) return alert('Barang tidak ditemukan');
+  const it = items[idx];
 
-  // decrement stok
-  item.stok = item.stok - 1;
+  const newName = prompt('Nama barang:', it.nama);
+  if(!newName) return;
+  const newHarga = prompt('Harga:', it.harga);
+  const newStok = prompt('Stok:', it.stok);
+
+  it.nama = newName;
+  it.harga = Number(newHarga) || it.harga;
+  it.stok = Number(newStok) || it.stok;
+
+  items[idx] = it;
   localStorage.setItem('sellerItems', JSON.stringify(items));
 
-  // update categoryDB stok too
-  let categoryDB = JSON.parse(localStorage.getItem('categoryDB') || '{}');
+  // update categoryDB
+  const categoryDB = JSON.parse(localStorage.getItem('categoryDB') || '{}');
   for(const cat in categoryDB){
-    categoryDB[cat] = categoryDB[cat].map(i => i.id === item.id ? item : i);
+    categoryDB[cat] = categoryDB[cat].map(x => x.id===id ? it : x);
   }
   localStorage.setItem('categoryDB', JSON.stringify(categoryDB));
 
-  // add rental
-  const history = JSON.parse(localStorage.getItem('rentalHistory') || '[]');
-  history.push({
-    rentId: 'RENT-' + Date.now(),
-    itemId: item.id,
-    itemNama: item.nama,
-    penyewa, nrp, kontak,
-    tglMulai, tglSelesai,
-    status: 'Sedang Disewa',
-    createdAt: new Date().toISOString()
-  });
-  localStorage.setItem('rentalHistory', JSON.stringify(history));
+  loadSellerItems();
+  loadRentHistory();
+  alert('Perubahan tersimpan.');
+}
 
-  rentForm.reset();
-  bootstrap.Modal.getInstance(rentModal).hide();
-  alert('Penyewaan tercatat — silakan cek Seller View untuk tracking.');
-});
+// delete item
+function deleteItem(id){
+  if(!confirm('Yakin hapus barang ini?')) return;
+  let items = JSON.parse(localStorage.getItem('sellerItems') || '[]');
+  items = items.filter(i => i.id!==id);
+  localStorage.setItem('sellerItems', JSON.stringify(items));
 
-// contact form quick handler
-document.getElementById('contactForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  alert('Terima kasih — pesan terkirim.');
-  this.reset();
-});
+  // remove from categoryDB
+  const categoryDB = JSON.parse(localStorage.getItem('categoryDB') || '{}');
+  for(const cat in categoryDB) categoryDB[cat] = categoryDB[cat].filter(i => i.id!==id);
+  localStorage.setItem('categoryDB', JSON.stringify(categoryDB));
+
+  // remove related rentals
+  let rentals = JSON.parse(localStorage.getItem('rentalHistory') || '[]');
+  rentals = rentals.filter(r => r.itemId !== id);
+  localStorage.setItem('rentalHistory', JSON.stringify(rentals));
+
+  loadSellerItems();
+  loadRentHistory();
+  alert('Barang dan transaksi terkait dihapus.');
+}
+
+// return item (update status and restock)
+function returnItem(rentId){
+  let rentals = JSON.parse(localStorage.getItem('rentalHistory') || '[]');
+  const rIdx = rentals.findIndex(r => r.rentId === rentId);
+  if(rIdx===-1) return alert('Transaksi tidak ditemukan');
+
+  const rent = rentals[rIdx];
+  if(rent.status !== 'Sedang Disewa') return alert('Status tidak dapat diubah');
+
+  // update rental
+  rent.status = 'Dikembalikan';
+  rentals[rIdx] = rent;
+  localStorage.setItem('rentalHistory', JSON.stringify(rentals));
+
+  // restock item
+  let items = JSON.parse(localStorage.getItem('sellerItems') || '[]');
+  const itIdx = items.findIndex(i => i.id === rent.itemId);
+  if(itIdx !== -1){
+    items[itIdx].stok = (items[itIdx].stok || 0) + 1;
+    localStorage.setItem('sellerItems', JSON.stringify(items));
+    // update categoryDB
+    const categoryDB = JSON.parse(localStorage.getItem('categoryDB') || '{}');
+    for(const cat in categoryDB){
+      categoryDB[cat] = categoryDB[cat].map(x => x.id===items[itIdx].id ? items[itIdx] : x);
+    }
+    localStorage.setItem('categoryDB', JSON.stringify(categoryDB));
+  }
+
+  loadSellerItems();
+  loadRentHistory();
+  alert('Status diperbarui: Barang dikembalikan.');
+}
+
+// initial load
+loadSellerItems();
+loadRentHistory();
 </script>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
