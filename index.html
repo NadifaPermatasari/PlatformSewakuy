@@ -360,6 +360,48 @@ document.getElementById("addForm").addEventListener("submit", function(e){
     status: "Tersedia",
     tanggalInput: new Date().toISOString()
   };
+// ==================== ADD ITEM SAVE FIX ====================
+document.getElementById("addForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let categoryDB = JSON.parse(localStorage.getItem("categoryDB")) || {};
+
+    const form = e.target;
+    const nama = form.querySelector("#add_namaBarang").value;
+    const kategori = form.querySelector("#add_kategori").value;
+    const harga = parseInt(form.querySelector("#add_harga").value);
+    const stok = parseInt(form.querySelector("#add_stok").value);
+    const deskripsi = form.querySelector("#add_deskripsi").value;
+
+    const fotoFiles = form.querySelector("#add_foto").files;
+    let fotoArray = [];
+
+    for (let f of fotoFiles) {
+        fotoArray.push(URL.createObjectURL(f));
+    }
+
+    let itemID = "ITEM-" + Date.now();
+
+    let newItem = {
+        id: itemID,
+        nama,
+        kategori,
+        deskripsi,
+        harga,
+        stok,
+        foto: fotoArray
+    };
+
+    if (!categoryDB[kategori]) categoryDB[kategori] = [];
+    categoryDB[kategori].push(newItem);
+
+    localStorage.setItem("categoryDB", JSON.stringify(categoryDB));
+
+    alert("Berhasil menambahkan barang!");
+
+    form.reset();
+    document.querySelector("#addModal .btn-close").click();
+});
 
   // SIMPAN DI LOCALSTORAGE
   const allItems = JSON.parse(localStorage.getItem("sellerItems")) || [];
@@ -470,17 +512,20 @@ document.getElementById("rentForm").addEventListener("submit", function(event) {
     </div>
 </section>
 
-<!-- ======================= MODAL CATEGORY (SUDAH KAMU PUNYA) ======================= -->
+<!-- ======================= MODAL CATEGORY VIEW ======================= -->
 <div class="modal fade" id="categoryModal" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
+
       <div class="modal-header">
-        <h5 id="categoryTitle" class="modal-title fw-bold"></h5>
+        <h5 id="categoryTitle" class="modal-title fw-bold">Kategori</h5>
         <button class="btn-close" data-bs-dismiss="modal"></button>
       </div>
+
       <div class="modal-body">
-        <div class="row" id="categoryItems"></div>
+        <div id="categoryItems" class="row g-3"></div>
       </div>
+
     </div>
   </div>
 </div>
@@ -712,7 +757,45 @@ function openCategory(categoryName) {
 
     new bootstrap.Modal(document.getElementById("categoryModal")).show();
 }
+// ==================== OPEN CATEGORY ====================
+function openCategory(categoryName) {
+    let categoryDB = JSON.parse(localStorage.getItem("categoryDB")) || {};
 
+    const categoryModal = new bootstrap.Modal(document.getElementById("categoryModal"));
+    document.getElementById("categoryTitle").innerText = categoryName;
+
+    let container = document.getElementById("categoryItems");
+    container.innerHTML = "";
+
+    let list = categoryDB[categoryName] || [];
+
+    if (list.length === 0) {
+        container.innerHTML = `<p class="text-muted">Belum ada barang dalam kategori ini.</p>`;
+        categoryModal.show();
+        return;
+    }
+
+    list.forEach(item => {
+        container.innerHTML += `
+            <div class="col-md-4">
+                <div class="card shadow-sm p-2 h-100">
+                    <img src="${item.foto[0]}" class="card-img-top" style="height:140px; object-fit:cover;">
+                    <h6 class="fw-bold mt-2">${item.nama}</h6>
+                    <p class="mb-1"><b>Harga:</b> Rp ${item.harga.toLocaleString()}</p>
+                    <p class="mb-1"><b>Stok:</b> ${item.stok}</p>
+                    <button class="btn btn-primary btn-sm" onclick="openRentFromCategory('${item.id}')">
+                        Sewa Sekarang
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+
+    categoryModal.show();
+}
+<script>
+
+  
 <!-- Section Tentang -->
 <section id="about" style=" padding: 80px; background-color: #F1F1F6" class="py-5";>
     <div class="container">
@@ -867,5 +950,6 @@ function openCategory(categoryName) {
 
   </body>
 </html>
+
 
 
