@@ -311,37 +311,52 @@ document.getElementById("addForm").addEventListener("submit", function(e){
 // OPEN CATEGORY — FINAL CLEAN VERSION
 // ==========================================================
 function openCategory(categoryName) {
-    const modal = new bootstrap.Modal(categoryModal);
-    categoryTitle.innerText = categoryName;
+    const categoryModal = new bootstrap.Modal(document.getElementById("categoryModal"));
+    const container = document.getElementById("categoryItems");
+    document.getElementById("categoryTitle").innerText = categoryName;
 
-    let categoryDB = JSON.parse(localStorage.getItem("categoryDB")) || {};
-    let list = categoryDB[categoryName] || [];
+    const categoryDB = JSON.parse(localStorage.getItem("categoryDB")) || {};
+    const sellerItems = JSON.parse(localStorage.getItem("sellerItems")) || [];
 
-    categoryItems.innerHTML = "";
+    const items = categoryDB[categoryName] || [];
+    container.innerHTML = "";
 
-    if (list.length === 0) {
-        categoryItems.innerHTML = `<p class='text-center text-muted'>Belum ada barang.</p>`;
-        modal.show();
+    if (items.length === 0) {
+        container.innerHTML = `<p class="text-center text-muted">Belum ada barang di kategori ini.</p>`;
+        categoryModal.show();
         return;
     }
 
-    list.forEach(item => {
-        categoryItems.innerHTML += `
+    items.forEach(item => {
+        // ambil versi data di sellerItems agar stok terbaru
+        const official = sellerItems.find(s => s.id === item.id);
+
+        let stok = official ? official.stok : item.stok;
+
+        container.innerHTML += `
             <div class="col-md-4">
-                <div class="card p-2 shadow-sm h-100">
-                    <img src="${item.foto[0]}" style="height:150px; object-fit:cover;" class="card-img-top">
-                    <h5 class="fw-bold mt-2">${item.nama}</h5>
-                    <p>${item.deskripsi ?? "-"}</p>
-                    <p><b>Harga:</b> Rp ${item.harga.toLocaleString()}</p>
-                    <p><b>Stok:</b> ${item.stok}</p>
+                <div class="card shadow-sm p-2 h-100">
+                    <img src="${item.foto[0]}" class="card-img-top" style="height:150px; object-fit:cover;">
+                    
+                    <div class="card-body">
+                        <h5 class="fw-bold">${item.nama}</h5>
+                        <p class="small mb-1">${item.deskripsi || "-"}</p>
+                        <p class="mb-1"><b>Harga:</b> Rp ${item.harga.toLocaleString()}</p>
+                        <p class="mb-1"><b>Stok:</b> ${stok}</p>
+
+                        <button class="btn btn-primary w-100 mt-2" 
+                            ${stok === 0 ? "disabled" : ""}
+                            onclick="openRentFromCategory('${item.id}')">
+                            ${stok === 0 ? "Stok Habis" : "Sewa Sekarang"}
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
     });
 
-    modal.show();
+    categoryModal.show();
 }
-
 
 // ==========================================================
 // SAVE RENT TRANSACTION
@@ -377,10 +392,29 @@ rentForm.addEventListener("submit", function(e){
     bootstrap.Modal.getInstance(rentModal).hide();
 });
 </script>
+<script>
+function openRentFromCategory(itemId) {
+    const sellerItems = JSON.parse(localStorage.getItem("sellerItems")) || [];
+    const item = sellerItems.find(i => i.id === itemId);
 
+    if (!item) {
+        alert("Barang tidak ditemukan!");
+        return;
+    }
+
+    // isi otomatis nama barang di rent modal
+    const inputNama = document.getElementById("namaBarangRent");
+    if (inputNama) inputNama.value = item.nama;
+
+    // tampilkan modal sewa
+    const rentModal = new bootstrap.Modal(document.getElementById("rentModal"));
+    rentModal.show();
+}
+</script>
 
 <!-- bootstrap js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
+
