@@ -1,13 +1,12 @@
 .back-video{
     height: 100%;
     width: 100%;
-    padding-left: 0%;
 }
 
 .category-image {
-    width: 100px;          /* semua gambar sama lebar */
-    height: 100px;         /* semua gambar sama tinggi */
-    object-fit: contain;   /* biar tidak terpotong dan proporsional */
-    margin: 0 auto;        /* posisi center */
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin: 0 auto;
     display: block;
 }
