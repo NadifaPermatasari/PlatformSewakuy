@@ -1,1 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Seller Dashboard - Sewakuy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body style="background:#F1F1F6;">
+
+<div class="container py-5">
+    <h2 class="fw-bold mb-4">📦 Seller Dashboard</h2>
+
+    <a href="index.html#addModal" class="btn btn-success mb-4">+ Tambah Barang</a>
+
+    <!-- Daftar Barang -->
+    <h4 class="fw-bold">Daftar Barang Anda</h4>
+    <div id="sellerItems" class="mb-5"></div>
+
+    <!-- Tracking Sewa -->
+    <h4 class="fw-bold mt-4">Riwayat Penyewaan</h4>
+    <div id="rentalList"></div>
+</div>
+
+<script>
+// ================= LOAD SELLER ITEMS =================
+function loadSellerItems() {
+    const items = JSON.parse(localStorage.getItem("sellerItems")) || [];
+    const container = document.getElementById("sellerItems");
+    container.innerHTML = "";
+
+    if (items.length === 0) {
+        container.innerHTML = "<p class='text-muted'>Belum ada barang terdaftar.</p>";
+        return;
+    }
+
+    items.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card shadow-sm mb-3";
+
+        card.innerHTML = `
+            <div class="card-body">
+                <h5>${item.nama}</h5>
+                <p>Kategori: ${item.kategori}</p>
+                <p>Harga: Rp ${item.harga.toLocaleString()}</p>
+                <p>Kondisi: ${item.kondisi}</p>
+                <p>Stok: ${item.stok}</p>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+// ================= LOAD RENTAL HISTORY =================
+function loadRentalHistory() {
+    const history = JSON.parse(localStorage.getItem("rentalHistory")) || [];
+    const sellerItems = JSON.parse(localStorage.getItem("sellerItems")) || [];
+    const container = document.getElementById("rentalList");
+
+    container.innerHTML = "";
+
+    if (history.length === 0) {
+        container.innerHTML = "<p class='text-muted'>Belum ada transaksi sewa.</p>";
+        return;
+    }
+
+    history.forEach(rent => {
+        const item = sellerItems.find(i => i.id === rent.itemId);
+        if (!item) return;
+
+        const div = document.createElement("div");
+        div.className = "card mb-3 shadow-sm";
+
+        div.innerHTML = `
+            <div class="card-body">
+                <h5>${item.nama}</h5>
+                <p><b>Penyewa:</b> ${rent.penyewa} (${rent.nrp})</p>
+                <p><b>Kontak:</b> ${rent.kontak}</p>
+                <p><b>Periode:</b> ${rent.tglMulai} → ${rent.tglSelesai}</p>
+                <p><b>Status:</b> 
+                    <span class="badge bg-${
+                        rent.status === 'Sedang Disewa' ? 'warning' :
+                        rent.status === 'Selesai' ? 'success' : 'danger'
+                    }">
+                        ${rent.status}
+                    </span>
+                </p>
+
+                <button class="btn btn-success btn-sm" onclick="updateStatus('${rent.rentId}', 'Selesai')">Selesai</button>
+                <button class="btn btn-danger btn-sm" onclick="updateStatus('${rent.rentId}', 'Dibatalkan')">Batalkan</button>
+            </div>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+// ================= UPDATE STATUS SEWA =================
+function updateStatus(rentId, newStatus) {
+    let history = JSON.parse(localStorage.getItem("rentalHistory")) || [];
+    let sellerItems = JSON.parse(localStorage.getItem("sellerItems")) || [];
+
+    const rent = history.find(r => r.rentId === rentId);
+    const item = sellerItems.find(i => i.id === rent.itemId);
+
+    if (rent.status === "Sedang Disewa" && (newStatus === "Selesai" || newStatus === "Dibatalkan")) {
+        item.stok += 1;
+    }
+
+    rent.status = newStatus;
+
+    localStorage.setItem("rentalHistory", JSON.stringify(history));
+    localStorage.setItem("sellerItems", JSON.stringify(sellerItems));
+
+    alert("Status berhasil diperbarui!");
+
+    loadSellerItems();
+    loadRentalHistory();
+}
+
+loadSellerItems();
+loadRentalHistory();
+</script>
+
+</body>
+</html>
 
