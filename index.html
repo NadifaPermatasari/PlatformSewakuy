@@ -412,9 +412,460 @@ document.getElementById("rentForm").addEventListener("submit", function(event) {
 });
 </script>
 
+<!-- ======================= CATEGORY ======================= -->
+<section id="category" style=" padding: 80px; background-color: #BE9FE1;">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-5" style="font-family: monospace;">Kategori Barang</h2>
+
+        <div class="row g-4">
+
+            <!-- Peralatan Elektronik -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Elektronik')" style="cursor: pointer;">
+                    <img src="assets/Peralatan Elektronik.jpg" class="card-img-top mb-3 category-image" alt="Elektronik">
+                    <h6 class="fw-bold">Peralatan Elektronik</h6>
+                </div>
+            </div>
+
+            <!-- Peralatan Hobi -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card p p-3 shadow-sm h-100" onclick="openCategory('Peralatan Hobi')" style="cursor: pointer;"> 
+                    <img src="assets/Hobi.jpg" class="card-img-top mb-3 category-image" alt="Hobi">
+                    <h6 class="fw-bold">Peralatan Hobi</h6>
+                </div>
+            </div>
+
+            <!-- Aksesoris Pendukung -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Aksesoris Pendukung')" style="cursor: pointer;">
+                    <img src="assets/Aksesoris.jpg" class="card-img-top mb-3 category-image" alt="Aksesoris">
+                    <h6 class="fw-bold">Aksesoris Pendukung</h6>
+                </div>
+            </div>
+
+            <!-- Peralatan Teknologi -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Teknologi')" style="cursor: pointer;">
+                    <img src="assets/Teknologi.png" class="card-img-top mb-3 category-image" alt="Teknologi">
+                    <h6 class="fw-bold">Peralatan Teknologi</h6>
+                </div>
+            </div>
+
+            <!-- Peralatan Event -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Event')" style="cursor: pointer;">
+                    <img src="assets/Event.jpg" class="card-img-top mb-3 category-image" alt="Event">
+                    <h6 class="fw-bold">Peralatan Event</h6>
+                </div>
+            </div>
+
+            <!-- Lainnya -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Lainnya')" style="cursor: pointer;">
+                    <img src="assets/Lainnya.jpg" class="card-img-top mb-3 category-image" alt="Lainnya">
+                    <h6 class="fw-bold">Lainnya</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ======================= MODAL CATEGORY (SUDAH KAMU PUNYA) ======================= -->
+<div class="modal fade" id="categoryModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="categoryTitle" class="modal-title fw-bold"></h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row" id="categoryItems"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= MODAL ADD ITEM (VERSI FINAL) ======================= -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">🛒 Tambah Barang Sewa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <form id="addForm">
+
+          <!-- IDENTITAS MAHASISWA -->
+          <h6 class="fw-bold mb-2">1. Identitas Mahasiswa</h6>
+
+          <div class="mb-3">
+            <label class="form-label">Nama Lengkap</label>
+            <input type="text" id="mhsNama" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">NRP</label>
+            <input type="text" id="mhsNRP" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Program Studi / Fakultas</label>
+            <input type="text" id="mhsProdi" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Upload Foto KTM</label>
+            <input type="file" id="mhsKTM" class="form-control" accept="image/*" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Kontak WA / Email Kampus</label>
+            <input type="text" id="mhsKontak" class="form-control" required>
+          </div>
+
+          <hr>
+
+          <!-- INFORMASI BARANG -->
+          <h6 class="fw-bold mb-2">2. Informasi Barang</h6>
+
+          <div class="mb-3">
+            <label class="form-label">Nama Barang</label>
+            <input type="text" id="barangNama" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Kategori Barang</label>
+            <select id="barangKategori" class="form-select" required>
+              <option selected disabled>Pilih Kategori</option>
+              <option>Peralatan Elektronik</option>
+              <option>Peralatan Hobi</option>
+              <option>Aksesoris Pendukung</option>
+              <option>Peralatan Teknologi</option>
+              <option>Peralatan Event</option>
+              <option>Lainnya</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Deskripsi Barang</label>
+            <textarea id="barangDeskripsi" class="form-control" rows="3"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Kondisi Barang</label>
+            <select id="barangKondisi" class="form-select">
+              <option>Baru</option>
+              <option>Sangat Baik</option>
+              <option>Baik</option>
+              <option>Layak</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Aturan Penggunaan</label>
+            <textarea id="barangAturan" class="form-control" rows="2"></textarea>
+          </div>
+
+          <hr>
+
+          <!-- HARGA & SKEMA SEWA -->
+          <h6 class="fw-bold mb-2">3. Harga & Ketersediaan</h6>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Harga Sewa / Hari</label>
+              <input type="number" id="barangHarga" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Deposit / Jaminan</label>
+              <input type="number" id="barangDeposit" class="form-control">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Stok Barang</label>
+            <input type="number" id="barangStok" class="form-control" required>
+          </div>
+
+          <hr>
+
+          <!-- FOTO BARANG -->
+          <h6 class="fw-bold mb-2">4. Foto Barang</h6>
+
+          <div class="mb-3">
+            <label class="form-label">Upload Foto (2–4 Foto)</label>
+            <input type="file" id="barangFoto" class="form-control" accept="image/*" multiple required>
+          </div>
+
+          <hr>
+
+          <!-- LOKASI -->
+          <h6 class="fw-bold mb-2">5. Lokasi Pengambilan</h6>
+
+          <div class="mb-3">
+            <label class="form-label">Lokasi Penjemputan</label>
+            <input type="text" id="barangLokasi" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Catatan Penjemputan</label>
+            <textarea id="barangCatatan" class="form-control" rows="2"></textarea>
+          </div>
+
+          <hr>
+
+          <!-- PERSETUJUAN -->
+          <div class="form-check mb-2">
+            <input id="agree1" class="form-check-input" type="checkbox" required>
+            <label class="form-check-label">Saya setuju dengan ketentuan platform.</label>
+          </div>
+
+          <div class="form-check mb-3">
+            <input id="agree2" class="form-check-input" type="checkbox" required>
+            <label class="form-check-label">Saya bertanggung jawab jika barang hilang/rusak.</label>
+          </div>
+
+          <button type="submit" class="btn btn-success w-100">Tambah Barang</button>
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ======================= SCRIPT FINAL ======================= -->
+<script>
+document.getElementById("addForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const item = {
+        id: "BRG-" + Date.now(),
+        nama: document.getElementById("barangNama").value,
+        kategori: document.getElementById("barangKategori").value,
+        deskripsi: document.getElementById("barangDeskripsi").value,
+        kondisi: document.getElementById("barangKondisi").value,
+        aturan: document.getElementById("barangAturan").value,
+        harga: Number(document.getElementById("barangHarga").value),
+        deposit: Number(document.getElementById("barangDeposit").value),
+        stok: Number(document.getElementById("barangStok").value),
+        lokasi: document.getElementById("barangLokasi").value,
+        catatan: document.getElementById("barangCatatan").value,
+        foto: Array.from(document.getElementById("barangFoto").files).map(f => URL.createObjectURL(f)),
+    };
+
+    let categoryDB = JSON.parse(localStorage.getItem("categoryDB")) || {
+        "Peralatan Elektronik": [],
+        "Peralatan Hobi": [],
+        "Aksesoris Pendukung": [],
+        "Peralatan Teknologi": [],
+        "Peralatan Event": [],
+        "Lainnya": []
+    };
+
+    categoryDB[item.kategori].push(item);
+
+    localStorage.setItem("categoryDB", JSON.stringify(categoryDB));
+
+    alert("Barang berhasil ditambahkan ke kategori " + item.kategori + "!");
+    bootstrap.Modal.getInstance(document.getElementById("addModal")).hide();
+});
+
+function openCategory(categoryName) {
+    const container = document.getElementById("categoryItems");
+    const title = document.getElementById("categoryTitle");
+
+    title.innerText = categoryName;
+
+    const categoryDB = JSON.parse(localStorage.getItem("categoryDB")) || {};
+    const items = categoryDB[categoryName] || [];
+
+    container.innerHTML = "";
+
+    if (items.length === 0) {
+        container.innerHTML = "<p class='text-center text-muted'>Belum ada barang di kategori ini.</p>";
+        new bootstrap.Modal(document.getElementById("categoryModal")).show();
+        return;
+    }
+
+    items.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "col-md-4";
+
+        div.innerHTML = `
+            <div class="card shadow-sm p-2 h-100">
+                <img src="${item.foto[0]}" class="card-img-top" style="height:150px; object-fit:cover;">
+                <div class="card-body">
+                    <h5 class="fw-bold">${item.nama}</h5>
+                    <p>${item.deskripsi || "-"} </p>
+                    <p><b>Harga:</b> Rp ${item.harga.toLocaleString()}</p>
+                </div>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+
+    new bootstrap.Modal(document.getElementById("categoryModal")).show();
+}
+
+<!-- Section Tentang -->
+<section id="about" style=" padding: 80px; background-color: #F1F1F6" class="py-5";>
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-lg-6 mb-4">
+                <img src="assets/sewa.png" class="img-fluid rounded-3 shadow" alt="Tentang Kami">
+            </div>
+
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-3">Tentang Sewakuy</h2>
+                <p class="text-muted">
+                    Sewakuy adalah platform penyewaan berbagai peralatan seperti elektronik,
+                    hobi, event, dan teknologi. Kami hadir untuk memudahkan masyarakat dalam
+                    mendapatkan barang yang dibutuhkan tanpa harus membeli.
+                </p>
+                <p class="text-muted">
+                    Dengan layanan cepat, harga terjangkau, dan banyak pilihan kategori,
+                    Sewakuy menjadi solusi praktis untuk memenuhi kebutuhan harian, event,
+                    maupun proyek khusus Anda.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- End Section Tentang -->
+
+<!-- Section COntact Us -->
+<h2>Contact Us</h2>
+<div class="contact-container">
+    <form id="contact" style=" padding: 80px; background-color: #BE9FE1" class="contact-form">
+        <div class="form-group">
+            <label for="name">Nama:</label>
+            <input type="text" id="name" name="name" placeholder="Masukkan nama Anda" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Pesan:</label>
+            <textarea id="message" name="message" rows="5" placeholder="Tulis pesan Anda" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Kirim Pesan</button>
+    </form>
+
+    <div class="contact-info">
+        <p>Atau hubungi kami melalui:</p>
+        <div class="social-links">
+            <a href="mailto:info@contoh.com" target="_blank">📧 Email</a>
+            <a href="https://www.instagram.com/akunSewakuy" target="_blank">📸 Instagram</a>
+            <a href="https://www.tiktok.com/akunSewakuyu" target="_blank">👍 Tiktok</a>
+            <a href="https://wa.me/628123456789" target="_blank">💬 WhatsApp</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    h2 {
+        text-align: center; 
+        margin-bottom: 20px; 
+        padding-left: 10px; 
+        padding-right: 10px; 
+    }
+
+    .contact-container {
+        max-width: 500px;
+        margin: 40px auto; 
+        padding: 20px; 
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        background-color: #F1F1F6;
+    }
+    .contact-form .form-group {
+        margin-bottom: 15px;
+    }
+    .contact-form label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+    .contact-form textarea {
+        resize: vertical;
+    }
+    .btn-submit {
+        background-color: #C9B6E4;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .btn-submit:hover {
+        background-color: #C9B6E4;
+    }
+
+    .contact-info {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .social-links a {
+        display: inline-block;
+        margin: 5px 10px;
+        text-decoration: none;
+        font-size: 16px;
+        color: #007bff;
+        transition: color 0.3s;
+    }
+    .social-links a:hover {
+        color: #0056b3;
+    }
+</style>
+
+<script>
+    const form = document.getElementById("contactForm");
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const message = document.getElementById("message").value;
+
+        alert(`Terima kasih, ${name}! Pesan Anda telah terkirim.\n\nEmail: ${email}\nPesan:\n${message}`);
+
+        form.reset();
+    });
+</script>
+
+<!-- bagian awal footer -->
+    <footer>
+      <div class="container-fluid text-center text-light p-2" style="background-color: #BE9FE1;">
+        <p>created <i class="bi bi-heart-fill"></i> by Kelompok 3 KBT</p>
+      </div>
+    </footer>
+    <!-- bagian akhir footer -->
+    
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
   </body>
 </html>
+
 
