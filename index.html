@@ -1,516 +1,236 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sewakuy</title>
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 
-    <title>Sewakuy</title>
-  </head>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+</head>
 
-  <body style="background-color: #F1F1F6;">
+<body style="background-color: #F1F1F6;">
 
 <!-- ======================= NAVBAR ======================= -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top"
-     style="font-family: cursive; font-size: large; font-weight: bold; width: 100%; z-index: 1000;">
+     style="font-family: cursive; font-size: large; font-weight: bold;">
 
   <div class="container py-1">
-
-    <!-- Logo -->
     <a class="navbar-brand d-flex align-items-center" href="#">
-        <img src="assets/logo.png" alt="Sewakuy Logo"
-             style="height: 38px; width: auto; margin-right: 8px;">
+        <img src="assets/logo.png" style="height: 38px; margin-right: 8px;">
         Sewakuy
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarNav" aria-controls="navbarNav"
-            aria-expanded="false" aria-label="Toggle navigation">
+            data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
 
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link active" href="#home">Beranda</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#category">Kategori</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#about">Tentang</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#contact">Kontak</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-primary" href="seller.html">Seller View</a>
-        </li>
+        <li class="nav-item"><a class="nav-link active" href="#home">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link" href="#category">Kategori</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">Tentang</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Kontak</a></li>
+        <li class="nav-item"><a class="nav-link text-primary" href="seller.html">Seller View</a></li>
       </ul>
-
     </div>
 
   </div>
 </nav>
 <!-- ======================= END NAVBAR ======================= -->
 
+
 <!-- ======================= HOME SECTION ======================= -->
 <section id="home" style="margin-top: 70px;">
     <div class="container-fluid p-0">
 
-        <video autoplay muted loop class="w-100" style="object-fit: cover; height: 100vh;">
+        <video autoplay muted loop class="w-100" style="height: 100vh; object-fit: cover;">
             <source src="assets/Bg.mp4">
         </video>
 
-        <div class="position-absolute top-50 start-50 translate-middle text-center text-dark" style="font-family: monospace; width: 100%;">
-            <h1 class="fw-bold">Sewa Barang Jadi Mudah, dari Mahasiswa untuk Mahasiswa</h1>
-            <p>Platform penyewaan barang untuk kebutuhan kuliah, kos, hingga event kampus.</p>
+        <div class="position-absolute top-50 start-50 translate-middle text-center" style="font-family: monospace;">
+            <h1 class="fw-bold">Sewa Barang Jadi Mudah</h1>
+            <p>Platform mahasiswa untuk mahasiswa</p>
 
-            <!-- Rent & Add Button -->
             <div class="d-flex justify-content-center gap-3 mt-3">
-
-                <button id="rentBtn" type="button" class="btn btn-secondary"
-                        style="font-family: monospace; height: 1.2cm; width: 5cm; font-weight: bolder;">
-                    Sewa Sekarang
-                </button>
-
-                <button id="addBtn" type="button" class="btn btn-secondary"
-                        style="font-family: monospace; height: 1.2cm; width: 5cm; font-weight: bolder;">
-                    Daftarkan Barangmu
-                </button>
-
+                <button id="rentBtn" class="btn btn-secondary" style="width: 5cm;">Sewa Sekarang</button>
+                <button id="addBtn" class="btn btn-secondary" style="width: 5cm;">Daftarkan Barangmu</button>
             </div>
-
         </div>
     </div>
 </section>
 <!-- ======================= END HOME ======================= -->
 
+
 <!-- ======================= MODAL RENT ======================= -->
 <div class="modal fade" id="rentModal" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title fw-bold">📦 Form Penyewaan Barang</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <h5 class="fw-bold">📦 Form Penyewaan Barang</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <div class="modal-body">
-
         <form id="rentForm">
 
-          <h6 class="fw-bold mb-2">1. Data Peminjam</h6>
-
-          <div class="mb-3">
-            <label class="form-label">Nama Lengkap</label>
-            <input type="text" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">NRP</label>
-            <input type="text" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Kontak (WA/Email)</label>
-            <input type="text" class="form-control" required>
-          </div>
+          <h6 class="fw-bold">1. Data Peminjam</h6>
+          <div class="mb-2"><input class="form-control" placeholder="Nama" required></div>
+          <div class="mb-2"><input class="form-control" placeholder="NRP" required></div>
+          <div class="mb-2"><input class="form-control" placeholder="Kontak (WA/Email)" required></div>
 
           <hr>
+          <h6 class="fw-bold">2. Detail Penyewaan</h6>
 
-          <h6 class="fw-bold mb-2">2. Detail Penyewaan</h6>
-
-          <div class mb-3>
-            <label class="form-label">Nama Barang</label>
-            <input type="text" id="namaBarangRent" class="form-control" required>
+          <div class="mb-2">
+            <input type="text" id="namaBarangRent" class="form-control" placeholder="Nama Barang" required>
           </div>
 
           <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Tanggal Mulai</label>
-              <input type="date" class="form-control" required>
-            </div>
-
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Tanggal Selesai</label>
-              <input type="date" class="form-control" required>
-            </div>
+            <div class="col-md-6 mb-2"><input type="date" class="form-control" required></div>
+            <div class="col-md-6 mb-2"><input type="date" class="form-control" required></div>
           </div>
 
-          <button type="submit" class="btn btn-primary w-100">Sewa Sekarang</button>
+          <button class="btn btn-primary w-100 mt-2">Sewa Sekarang</button>
 
         </form>
-
       </div>
 
     </div>
   </div>
 </div>
 
+
 <!-- ======================= MODAL ADD ITEM ======================= -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="addModal" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title fw-bold">🛒 Tambah Barang Sewa</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <h5 class="fw-bold">🛒 Tambah Barang Sewa</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <div class="modal-body">
 
         <form id="addForm">
 
-          <!-- IDENTITAS MAHASISWA -->
-          <h6 class="fw-bold mb-2">1. Identitas Mahasiswa</h6>
-
-          <div class="mb-3">
-            <label class="form-label">Nama Lengkap</label>
-            <input type="text" id="mhsNama" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">NRP</label>
-            <input type="text" id="mhsNRP" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Program Studi / Fakultas</label>
-            <input type="text" id="mhsProdi" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Upload Foto KTM</label>
-            <input type="file" id="mhsKTM" class="form-control" accept="image/*" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Kontak WA / Email Kampus</label>
-            <input type="text" id="mhsKontak" class="form-control" required>
-          </div>
+          <h6 class="fw-bold">1. Identitas Mahasiswa</h6>
+          <input id="mhsNama" class="form-control mb-2" placeholder="Nama" required>
+          <input id="mhsNRP" class="form-control mb-2" placeholder="NRP" required>
+          <input id="mhsProdi" class="form-control mb-2" placeholder="Program Studi" required>
+          <input id="mhsKontak" class="form-control mb-2" placeholder="WA / Email Kampus" required>
+          <input id="mhsKTM" type="file" class="form-control mb-3" accept="image/*" required>
 
           <hr>
+          <h6 class="fw-bold">2. Informasi Barang</h6>
 
-          <!-- INFORMASI BARANG -->
-          <h6 class="fw-bold mb-2">2. Informasi Barang</h6>
+          <input id="barangNama" class="form-control mb-2" placeholder="Nama Barang" required>
 
-          <div class="mb-3">
-            <label class="form-label">Nama Barang</label>
-            <input type="text" id="barangNama" class="form-control" required>
-          </div>
+          <select id="barangKategori" class="form-select mb-2" required>
+            <option disabled selected>Pilih Kategori</option>
+            <option>Peralatan Elektronik</option>
+            <option>Peralatan Hobi</option>
+            <option>Aksesoris Pendukung</option>
+            <option>Peralatan Teknologi</option>
+            <option>Peralatan Event</option>
+            <option>Lainnya</option>
+          </select>
 
-          <div class="mb-3">
-            <label class="form-label">Kategori Barang</label>
-            <select id="barangKategori" class="form-select" required>
-              <option selected disabled>Pilih Kategori</option>
-              <option>Peralatan Elektronik</option>
-              <option>Peralatan Hobi</option>
-              <option>Aksesoris Pendukung</option>
-              <option>Peralatan Teknologi</option>
-              <option>Lainnya</option>
-            </select>
-          </div>
+          <textarea id="barangDeskripsi" class="form-control mb-2" rows="3" placeholder="Deskripsi"></textarea>
 
-          <div class="mb-3">
-            <label class="form-label">Deskripsi Barang</label>
-            <textarea id="barangDeskripsi" class="form-control" rows="3"></textarea>
-          </div>
+          <select id="barangKondisi" class="form-select mb-2">
+            <option>Baru</option><option>Sangat Baik</option><option>Baik</option><option>Layak</option>
+          </select>
 
-          <div class="mb-3">
-            <label class="form-label">Kondisi Barang</label>
-            <select id="barangKondisi" class="form-select">
-              <option>Baru</option>
-              <option>Sangat Baik</option>
-              <option>Baik</option>
-              <option>Layak</option>
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Aturan Penggunaan</label>
-            <textarea id="barangAturan" class="form-control" rows="2"></textarea>
-          </div>
+          <textarea id="barangAturan" class="form-control mb-2" rows="2" placeholder="Aturan penggunaan"></textarea>
 
           <hr>
+          <h6 class="fw-bold">3. Harga & Stok</h6>
 
-          <!-- HARGA & SKEMA SEWA -->
-          <h6 class="fw-bold mb-2">3. Harga & Ketersediaan</h6>
-
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Harga Sewa / Hari</label>
-              <input type="number" id="barangHarga" class="form-control" required>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Deposit / Jaminan</label>
-              <input type="number" id="barangDeposit" class="form-control">
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Stok Barang</label>
-            <input type="number" id="barangStok" class="form-control" required>
-          </div>
+          <input id="barangHarga" type="number" class="form-control mb-2" placeholder="Harga per Hari" required>
+          <input id="barangDeposit" type="number" class="form-control mb-2" placeholder="Deposit (opsional)">
+          <input id="barangStok" type="number" class="form-control mb-2" placeholder="Stok Barang" required>
 
           <hr>
-
-          <!-- FOTO BARANG -->
-          <h6 class="fw-bold mb-2">4. Foto Barang</h6>
-
-          <div class="mb-3">
-            <label class="form-label">Upload Foto (2–4 Foto)</label>
-            <input type="file" id="barangFoto" class="form-control" accept="image/*" multiple required>
-          </div>
+          <h6 class="fw-bold">4. Foto Barang</h6>
+          <input id="barangFoto" type="file" class="form-control mb-3" multiple accept="image/*" required>
 
           <hr>
+          <h6 class="fw-bold">5. Lokasi Pengambilan</h6>
+          <input id="barangLokasi" class="form-control mb-2" placeholder="Lokasi Penjemputan" required>
+          <textarea id="barangCatatan" class="form-control mb-3" rows="2" placeholder="Catatan"></textarea>
 
-          <!-- LOKASI -->
-          <h6 class="fw-bold mb-2">5. Lokasi Pengambilan</h6>
-
-          <div class="mb-3">
-            <label class="form-label">Lokasi Penjemputan</label>
-            <input type="text" id="barangLokasi" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Catatan Penjemputan</label>
-            <textarea id="barangCatatan" class="form-control" rows="2"></textarea>
-          </div>
-
-          <hr>
-
-          <!-- PERSETUJUAN -->
-          <div class="form-check mb-2">
-            <input id="agree1" class="form-check-input" type="checkbox" required>
-            <label class="form-check-label">Saya setuju dengan ketentuan platform.</label>
-          </div>
-
-          <div class="form-check mb-3">
-            <input id="agree2" class="form-check-input" type="checkbox" required>
-            <label class="form-check-label">Saya bertanggung jawab jika barang hilang/rusak.</label>
-          </div>
-
-          <button type="submit" class="btn btn-success w-100">Tambah Barang</button>
+          <button class="btn btn-success w-100">Tambah Barang</button>
 
         </form>
-
       </div>
 
     </div>
   </div>
 </div>
 
-<script>
-// ==================== SHOW MODALS ====================
-document.getElementById("rentBtn").onclick = () => {
-    new bootstrap.Modal(document.getElementById("rentModal")).show();
-};
-
-document.getElementById("addBtn").onclick = () => {
-    new bootstrap.Modal(document.getElementById("addModal")).show();
-};
-
-// ==================== SAVE ADDED ITEM ====================
-document.getElementById("addForm").addEventListener("submit", function(e){
-  e.preventDefault();
-
-  const newItem = {
-    id: "BRG-" + Date.now(),
-
-    // IDENTITAS MAHASISWA
-    mhsNama: document.getElementById("mhsNama").value,
-    mhsNRP: document.getElementById("mhsNRP").value,
-    mhsProdi: document.getElementById("mhsProdi").value,
-    mhsKontak: document.getElementById("mhsKontak").value,
-
-    // KTM (base64)
-    mhsKTM: document.getElementById("mhsKTM").files[0]
-      ? URL.createObjectURL(document.getElementById("mhsKTM").files[0])
-      : null,
-
-    // INFORMASI BARANG
-    nama: document.getElementById("barangNama").value,
-    kategori: document.getElementById("barangKategori").value,
-    deskripsi: document.getElementById("barangDeskripsi").value,
-    kondisi: document.getElementById("barangKondisi").value,
-    aturan: document.getElementById("barangAturan").value,
-
-    // HARGA & STOK
-    harga: parseInt(document.getElementById("barangHarga").value),
-    deposit: parseInt(document.getElementById("barangDeposit").value) || 0,
-    stok: parseInt(document.getElementById("barangStok").value),
-
-    // FOTO BARANG multiple
-    foto: Array.from(document.getElementById("barangFoto").files).map(file => URL.createObjectURL(file)),
-
-    // LOKASI
-    lokasi: document.getElementById("barangLokasi").value,
-    catatan: document.getElementById("barangCatatan").value,
-
-    status: "Tersedia",
-    tanggalInput: new Date().toISOString()
-  };
-// ==================== ADD ITEM SAVE FIX ====================
-document.getElementById("addForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    let categoryDB = JSON.parse(localStorage.getItem("categoryDB")) || {};
-
-    const form = e.target;
-    const nama = form.querySelector("#add_namaBarang").value;
-    const kategori = form.querySelector("#add_kategori").value;
-    const harga = parseInt(form.querySelector("#add_harga").value);
-    const stok = parseInt(form.querySelector("#add_stok").value);
-    const deskripsi = form.querySelector("#add_deskripsi").value;
-
-    const fotoFiles = form.querySelector("#add_foto").files;
-    let fotoArray = [];
-
-    for (let f of fotoFiles) {
-        fotoArray.push(URL.createObjectURL(f));
-    }
-
-    let itemID = "ITEM-" + Date.now();
-
-    let newItem = {
-        id: itemID,
-        nama,
-        kategori,
-        deskripsi,
-        harga,
-        stok,
-        foto: fotoArray
-    };
-
-    if (!categoryDB[kategori]) categoryDB[kategori] = [];
-    categoryDB[kategori].push(newItem);
-
-    localStorage.setItem("categoryDB", JSON.stringify(categoryDB));
-
-    alert("Berhasil menambahkan barang!");
-
-    form.reset();
-    document.querySelector("#addModal .btn-close").click();
-});
-
-  // SIMPAN DI LOCALSTORAGE
-  const allItems = JSON.parse(localStorage.getItem("sellerItems")) || [];
-  allItems.push(newItem);
-  localStorage.setItem("sellerItems", JSON.stringify(allItems));
-
-  alert("Barang berhasil ditambahkan!");
-  bootstrap.Modal.getInstance(document.getElementById("addModal")).hide();
-});
-
-
-// ==================== SAVE RENT TRANSACTION ====================
-document.getElementById("rentForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const penyewa = document.querySelector("#rentForm input:nth-of-type(1)").value;
-    const nrp = document.querySelector("#rentForm input:nth-of-type(2)").value;
-    const kontak = document.querySelector("#rentForm input:nth-of-type(3)").value;
-    const namaBarang = document.getElementById("namaBarangRent").value;
-
-    const tglMulai = document.querySelector("#rentForm input[type='date']:nth-of-type(1)").value;
-    const tglSelesai = document.querySelector("#rentForm input[type='date']:nth-of-type(2)").value;
-
-    let sellerItems = JSON.parse(localStorage.getItem("sellerItems")) || [];
-    const item = sellerItems.find(i => i.nama === namaBarang);
-
-    if (!item) {
-        alert("Barang tidak ditemukan dalam database seller!");
-        return;
-    }
-
-    const history = JSON.parse(localStorage.getItem("rentalHistory")) || [];
-
-    history.push({
-        rentId: "RENT-" + Date.now(),
-        itemId: item.id,
-        penyewa: penyewa,
-        nrp: nrp,
-        kontak: kontak,
-        tglMulai: tglMulai,
-        tglSelesai: tglSelesai,
-        status: "Sedang Disewa"
-    });
-
-    localStorage.setItem("rentalHistory", JSON.stringify(history));
-
-    alert("Penyewaan berhasil dicatat!");
-
-    bootstrap.Modal.getInstance(document.getElementById("rentModal")).hide();
-});
-</script>
 
 <!-- ======================= CATEGORY ======================= -->
-<section id="category" style=" padding: 80px; background-color: #BE9FE1;">
+<section id="category" style="padding:80px; background:#BE9FE1;">
     <div class="container text-center">
-        <h2 class="fw-bold mb-5" style="font-family: monospace;">Kategori Barang</h2>
+        <h2 class="fw-bold mb-4">Kategori Barang</h2>
 
-        <div class="row g-4">
+        <div class="row g-3">
 
-            <!-- Peralatan Elektronik -->
             <div class="col-6 col-md-4 col-lg-2">
-                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Elektronik')" style="cursor: pointer;">
-                    <img src="assets/Peralatan Elektronik.jpg" class="card-img-top mb-3 category-image" alt="Elektronik">
+                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Elektronik')">
+                    <img src="assets/Peralatan Elektronik.jpg" class="category-image">
                     <h6 class="fw-bold">Peralatan Elektronik</h6>
                 </div>
             </div>
 
-            <!-- Peralatan Hobi -->
             <div class="col-6 col-md-4 col-lg-2">
-                <div class="card p p-3 shadow-sm h-100" onclick="openCategory('Peralatan Hobi')" style="cursor: pointer;"> 
-                    <img src="assets/Hobi.jpg" class="card-img-top mb-3 category-image" alt="Hobi">
+                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Hobi')">
+                    <img src="assets/Hobi.jpg" class="category-image">
                     <h6 class="fw-bold">Peralatan Hobi</h6>
                 </div>
             </div>
 
-            <!-- Aksesoris Pendukung -->
             <div class="col-6 col-md-4 col-lg-2">
-                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Aksesoris Pendukung')" style="cursor: pointer;">
-                    <img src="assets/Aksesoris.jpg" class="card-img-top mb-3 category-image" alt="Aksesoris">
+                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Aksesoris Pendukung')">
+                    <img src="assets/Aksesoris.jpg" class="category-image">
                     <h6 class="fw-bold">Aksesoris Pendukung</h6>
                 </div>
             </div>
 
-            <!-- Peralatan Teknologi -->
             <div class="col-6 col-md-4 col-lg-2">
-                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Teknologi')" style="cursor: pointer;">
-                    <img src="assets/Teknologi.png" class="card-img-top mb-3 category-image" alt="Teknologi">
+                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Teknologi')">
+                    <img src="assets/Teknologi.png" class="category-image">
                     <h6 class="fw-bold">Peralatan Teknologi</h6>
                 </div>
             </div>
 
-            <!-- Peralatan Event -->
             <div class="col-6 col-md-4 col-lg-2">
-                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Event')" style="cursor: pointer;">
-                    <img src="assets/Event.jpg" class="card-img-top mb-3 category-image" alt="Event">
+                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Peralatan Event')">
+                    <img src="assets/Event.jpg" class="category-image">
                     <h6 class="fw-bold">Peralatan Event</h6>
                 </div>
             </div>
 
-            <!-- Lainnya -->
             <div class="col-6 col-md-4 col-lg-2">
-                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Lainnya')" style="cursor: pointer;">
-                    <img src="assets/Lainnya.jpg" class="card-img-top mb-3 category-image" alt="Lainnya">
+                <div class="card p-3 shadow-sm h-100" onclick="openCategory('Lainnya')">
+                    <img src="assets/Lainnya.jpg" class="category-image">
                     <h6 class="fw-bold">Lainnya</h6>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
+
 
 <!-- ======================= MODAL CATEGORY VIEW ======================= -->
 <div class="modal fade" id="categoryModal" tabindex="-1">
@@ -518,190 +238,51 @@ document.getElementById("rentForm").addEventListener("submit", function(event) {
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 id="categoryTitle" class="modal-title fw-bold">Kategori</h5>
+        <h5 id="categoryTitle" class="fw-bold"></h5>
         <button class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <div class="modal-body">
-        <div id="categoryItems" class="row g-3"></div>
+        <div class="row g-3" id="categoryItems"></div>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- ======================= MODAL ADD ITEM (VERSI FINAL) ======================= -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
-    <div class="modal-content">
 
-      <div class="modal-header">
-        <h5 class="modal-title fw-bold">🛒 Tambah Barang Sewa</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-
-        <form id="addForm">
-
-          <!-- IDENTITAS MAHASISWA -->
-          <h6 class="fw-bold mb-2">1. Identitas Mahasiswa</h6>
-
-          <div class="mb-3">
-            <label class="form-label">Nama Lengkap</label>
-            <input type="text" id="mhsNama" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">NRP</label>
-            <input type="text" id="mhsNRP" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Program Studi / Fakultas</label>
-            <input type="text" id="mhsProdi" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Upload Foto KTM</label>
-            <input type="file" id="mhsKTM" class="form-control" accept="image/*" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Kontak WA / Email Kampus</label>
-            <input type="text" id="mhsKontak" class="form-control" required>
-          </div>
-
-          <hr>
-
-          <!-- INFORMASI BARANG -->
-          <h6 class="fw-bold mb-2">2. Informasi Barang</h6>
-
-          <div class="mb-3">
-            <label class="form-label">Nama Barang</label>
-            <input type="text" id="barangNama" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Kategori Barang</label>
-            <select id="barangKategori" class="form-select" required>
-              <option selected disabled>Pilih Kategori</option>
-              <option>Peralatan Elektronik</option>
-              <option>Peralatan Hobi</option>
-              <option>Aksesoris Pendukung</option>
-              <option>Peralatan Teknologi</option>
-              <option>Peralatan Event</option>
-              <option>Lainnya</option>
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Deskripsi Barang</label>
-            <textarea id="barangDeskripsi" class="form-control" rows="3"></textarea>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Kondisi Barang</label>
-            <select id="barangKondisi" class="form-select">
-              <option>Baru</option>
-              <option>Sangat Baik</option>
-              <option>Baik</option>
-              <option>Layak</option>
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Aturan Penggunaan</label>
-            <textarea id="barangAturan" class="form-control" rows="2"></textarea>
-          </div>
-
-          <hr>
-
-          <!-- HARGA & SKEMA SEWA -->
-          <h6 class="fw-bold mb-2">3. Harga & Ketersediaan</h6>
-
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Harga Sewa / Hari</label>
-              <input type="number" id="barangHarga" class="form-control" required>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Deposit / Jaminan</label>
-              <input type="number" id="barangDeposit" class="form-control">
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Stok Barang</label>
-            <input type="number" id="barangStok" class="form-control" required>
-          </div>
-
-          <hr>
-
-          <!-- FOTO BARANG -->
-          <h6 class="fw-bold mb-2">4. Foto Barang</h6>
-
-          <div class="mb-3">
-            <label class="form-label">Upload Foto (2–4 Foto)</label>
-            <input type="file" id="barangFoto" class="form-control" accept="image/*" multiple required>
-          </div>
-
-          <hr>
-
-          <!-- LOKASI -->
-          <h6 class="fw-bold mb-2">5. Lokasi Pengambilan</h6>
-
-          <div class="mb-3">
-            <label class="form-label">Lokasi Penjemputan</label>
-            <input type="text" id="barangLokasi" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Catatan Penjemputan</label>
-            <textarea id="barangCatatan" class="form-control" rows="2"></textarea>
-          </div>
-
-          <hr>
-
-          <!-- PERSETUJUAN -->
-          <div class="form-check mb-2">
-            <input id="agree1" class="form-check-input" type="checkbox" required>
-            <label class="form-check-label">Saya setuju dengan ketentuan platform.</label>
-          </div>
-
-          <div class="form-check mb-3">
-            <input id="agree2" class="form-check-input" type="checkbox" required>
-            <label class="form-check-label">Saya bertanggung jawab jika barang hilang/rusak.</label>
-          </div>
-
-          <button type="submit" class="btn btn-success w-100">Tambah Barang</button>
-
-        </form>
-
-      </div>
-
-    </div>
-  </div>
-</div>
 
 <!-- ======================= SCRIPT FINAL ======================= -->
 <script>
-document.getElementById("addForm").addEventListener("submit", function (e) {
+// ==========================================================
+// BUTTONS
+// ==========================================================
+document.getElementById("rentBtn").onclick = () =>
+    new bootstrap.Modal(document.getElementById("rentModal")).show();
+
+document.getElementById("addBtn").onclick = () =>
+    new bootstrap.Modal(document.getElementById("addModal")).show();
+
+
+// ==========================================================
+// ADD ITEM — FINAL CLEAN VERSION
+// ==========================================================
+document.getElementById("addForm").addEventListener("submit", function(e){
     e.preventDefault();
 
     const item = {
         id: "BRG-" + Date.now(),
-        nama: document.getElementById("barangNama").value,
-        kategori: document.getElementById("barangKategori").value,
-        deskripsi: document.getElementById("barangDeskripsi").value,
-        kondisi: document.getElementById("barangKondisi").value,
-        aturan: document.getElementById("barangAturan").value,
-        harga: Number(document.getElementById("barangHarga").value),
-        deposit: Number(document.getElementById("barangDeposit").value),
-        stok: Number(document.getElementById("barangStok").value),
-        lokasi: document.getElementById("barangLokasi").value,
-        catatan: document.getElementById("barangCatatan").value,
-        foto: Array.from(document.getElementById("barangFoto").files).map(f => URL.createObjectURL(f)),
+        nama: barangNama.value,
+        kategori: barangKategori.value,
+        deskripsi: barangDeskripsi.value,
+        kondisi: barangKondisi.value,
+        aturan: barangAturan.value,
+        harga: Number(barangHarga.value),
+        deposit: Number(barangDeposit.value),
+        stok: Number(barangStok.value),
+        lokasi: barangLokasi.value,
+        catatan: barangCatatan.value,
+        foto: Array.from(barangFoto.files).map(f => URL.createObjectURL(f))
     };
 
     let categoryDB = JSON.parse(localStorage.getItem("categoryDB")) || {
@@ -714,242 +295,92 @@ document.getElementById("addForm").addEventListener("submit", function (e) {
     };
 
     categoryDB[item.kategori].push(item);
-
     localStorage.setItem("categoryDB", JSON.stringify(categoryDB));
 
-    alert("Barang berhasil ditambahkan ke kategori " + item.kategori + "!");
-    bootstrap.Modal.getInstance(document.getElementById("addModal")).hide();
+    let sellerItems = JSON.parse(localStorage.getItem("sellerItems")) || [];
+    sellerItems.push(item);
+    localStorage.setItem("sellerItems", JSON.stringify(sellerItems));
+
+    alert("Barang berhasil ditambahkan!");
+    bootstrap.Modal.getInstance(addModal).hide();
+    addForm.reset();
 });
 
+
+// ==========================================================
+// OPEN CATEGORY — FINAL CLEAN VERSION
+// ==========================================================
 function openCategory(categoryName) {
-    const container = document.getElementById("categoryItems");
-    const title = document.getElementById("categoryTitle");
+    const modal = new bootstrap.Modal(categoryModal);
+    categoryTitle.innerText = categoryName;
 
-    title.innerText = categoryName;
-
-    const categoryDB = JSON.parse(localStorage.getItem("categoryDB")) || {};
-    const items = categoryDB[categoryName] || [];
-
-    container.innerHTML = "";
-
-    if (items.length === 0) {
-        container.innerHTML = "<p class='text-center text-muted'>Belum ada barang di kategori ini.</p>";
-        new bootstrap.Modal(document.getElementById("categoryModal")).show();
-        return;
-    }
-
-    items.forEach(item => {
-        const div = document.createElement("div");
-        div.className = "col-md-4";
-
-        div.innerHTML = `
-            <div class="card shadow-sm p-2 h-100">
-                <img src="${item.foto[0]}" class="card-img-top" style="height:150px; object-fit:cover;">
-                <div class="card-body">
-                    <h5 class="fw-bold">${item.nama}</h5>
-                    <p>${item.deskripsi || "-"} </p>
-                    <p><b>Harga:</b> Rp ${item.harga.toLocaleString()}</p>
-                </div>
-            </div>
-        `;
-        container.appendChild(div);
-    });
-
-    new bootstrap.Modal(document.getElementById("categoryModal")).show();
-}
-// ==================== OPEN CATEGORY ====================
-function openCategory(categoryName) {
     let categoryDB = JSON.parse(localStorage.getItem("categoryDB")) || {};
-
-    const categoryModal = new bootstrap.Modal(document.getElementById("categoryModal"));
-    document.getElementById("categoryTitle").innerText = categoryName;
-
-    let container = document.getElementById("categoryItems");
-    container.innerHTML = "";
-
     let list = categoryDB[categoryName] || [];
 
+    categoryItems.innerHTML = "";
+
     if (list.length === 0) {
-        container.innerHTML = `<p class="text-muted">Belum ada barang dalam kategori ini.</p>`;
-        categoryModal.show();
+        categoryItems.innerHTML = `<p class='text-center text-muted'>Belum ada barang.</p>`;
+        modal.show();
         return;
     }
 
     list.forEach(item => {
-        container.innerHTML += `
+        categoryItems.innerHTML += `
             <div class="col-md-4">
-                <div class="card shadow-sm p-2 h-100">
-                    <img src="${item.foto[0]}" class="card-img-top" style="height:140px; object-fit:cover;">
-                    <h6 class="fw-bold mt-2">${item.nama}</h6>
-                    <p class="mb-1"><b>Harga:</b> Rp ${item.harga.toLocaleString()}</p>
-                    <p class="mb-1"><b>Stok:</b> ${item.stok}</p>
-                    <button class="btn btn-primary btn-sm" onclick="openRentFromCategory('${item.id}')">
-                        Sewa Sekarang
-                    </button>
+                <div class="card p-2 shadow-sm h-100">
+                    <img src="${item.foto[0]}" style="height:150px; object-fit:cover;" class="card-img-top">
+                    <h5 class="fw-bold mt-2">${item.nama}</h5>
+                    <p>${item.deskripsi ?? "-"}</p>
+                    <p><b>Harga:</b> Rp ${item.harga.toLocaleString()}</p>
+                    <p><b>Stok:</b> ${item.stok}</p>
                 </div>
             </div>
         `;
     });
 
-    categoryModal.show();
+    modal.show();
 }
-<script>
 
-  
-<!-- Section Tentang -->
-<section id="about" style=" padding: 80px; background-color: #F1F1F6" class="py-5";>
-    <div class="container">
-        <div class="row align-items-center">
 
-            <div class="col-lg-6 mb-4">
-                <img src="assets/sewa.png" class="img-fluid rounded-3 shadow" alt="Tentang Kami">
-            </div>
+// ==========================================================
+// SAVE RENT TRANSACTION
+// ==========================================================
+rentForm.addEventListener("submit", function(e){
+    e.preventDefault();
 
-            <div class="col-lg-6">
-                <h2 class="fw-bold mb-3">Tentang Sewakuy</h2>
-                <p class="text-muted">
-                    Sewakuy adalah platform penyewaan berbagai peralatan seperti elektronik,
-                    hobi, event, dan teknologi. Kami hadir untuk memudahkan masyarakat dalam
-                    mendapatkan barang yang dibutuhkan tanpa harus membeli.
-                </p>
-                <p class="text-muted">
-                    Dengan layanan cepat, harga terjangkau, dan banyak pilihan kategori,
-                    Sewakuy menjadi solusi praktis untuk memenuhi kebutuhan harian, event,
-                    maupun proyek khusus Anda.
-                </p>
-            </div>
+    const penyewa = rentForm.querySelector("input:nth-child(1)").value;
+    const nrp = rentForm.querySelector("input:nth-child(2)").value;
+    const kontak = rentForm.querySelector("input:nth-child(3)").value;
 
-        </div>
-    </div>
-</section>
-<!-- End Section Tentang -->
+    const namaBarang = namaBarangRent.value;
 
-<!-- Section COntact Us -->
-<h2>Contact Us</h2>
-<div class="contact-container">
-    <form id="contact" style=" padding: 80px; background-color: #BE9FE1" class="contact-form">
-        <div class="form-group">
-            <label for="name">Nama:</label>
-            <input type="text" id="name" name="name" placeholder="Masukkan nama Anda" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required>
-        </div>
-        <div class="form-group">
-            <label for="message">Pesan:</label>
-            <textarea id="message" name="message" rows="5" placeholder="Tulis pesan Anda" required></textarea>
-        </div>
-        <button type="submit" class="btn-submit">Kirim Pesan</button>
-    </form>
+    const items = JSON.parse(localStorage.getItem("sellerItems")) || [];
+    const item = items.find(i => i.nama === namaBarang);
 
-    <div class="contact-info">
-        <p>Atau hubungi kami melalui:</p>
-        <div class="social-links">
-            <a href="mailto:info@contoh.com" target="_blank">📧 Email</a>
-            <a href="https://www.instagram.com/akunSewakuy" target="_blank">📸 Instagram</a>
-            <a href="https://www.tiktok.com/akunSewakuyu" target="_blank">👍 Tiktok</a>
-            <a href="https://wa.me/628123456789" target="_blank">💬 WhatsApp</a>
-        </div>
-    </div>
-</div>
-
-<style>
-    h2 {
-        text-align: center; 
-        margin-bottom: 20px; 
-        padding-left: 10px; 
-        padding-right: 10px; 
+    if (!item) {
+        alert("Barang tidak ditemukan!");
+        return;
     }
 
-    .contact-container {
-        max-width: 500px;
-        margin: 40px auto; 
-        padding: 20px; 
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        background-color: #F1F1F6;
-    }
-    .contact-form .form-group {
-        margin-bottom: 15px;
-    }
-    .contact-form label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-    .contact-form input,
-    .contact-form textarea {
-        width: 100%;
-        padding: 10px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        font-size: 14px;
-        box-sizing: border-box;
-    }
-    .contact-form textarea {
-        resize: vertical;
-    }
-    .btn-submit {
-        background-color: #C9B6E4;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 6px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-    .btn-submit:hover {
-        background-color: #C9B6E4;
-    }
-
-    .contact-info {
-        margin-top: 20px;
-        text-align: center;
-    }
-    .social-links a {
-        display: inline-block;
-        margin: 5px 10px;
-        text-decoration: none;
-        font-size: 16px;
-        color: #007bff;
-        transition: color 0.3s;
-    }
-    .social-links a:hover {
-        color: #0056b3;
-    }
-</style>
-
-<script>
-    const form = document.getElementById("contactForm");
-
-    form.addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const message = document.getElementById("message").value;
-
-        alert(`Terima kasih, ${name}! Pesan Anda telah terkirim.\n\nEmail: ${email}\nPesan:\n${message}`);
-
-        form.reset();
+    let history = JSON.parse(localStorage.getItem("rentalHistory")) || [];
+    history.push({
+        rentId: "RENT-" + Date.now(),
+        itemId: item.id,
+        penyewa, nrp, kontak,
+        status: "Sedang Disewa"
     });
+
+    localStorage.setItem("rentalHistory", JSON.stringify(history));
+
+    alert("Penyewaan berhasil!");
+    bootstrap.Modal.getInstance(rentModal).hide();
+});
 </script>
 
-<!-- bagian awal footer -->
-    <footer>
-      <div class="container-fluid text-center text-light p-2" style="background-color: #BE9FE1;">
-        <p>created <i class="bi bi-heart-fill"></i> by Kelompok 3 KBT</p>
-      </div>
-    </footer>
-    <!-- bagian akhir footer -->
-    
-<!-- Bootstrap JS -->
+
+<!-- bootstrap js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  </body>
+</body>
 </html>
-
-
-
