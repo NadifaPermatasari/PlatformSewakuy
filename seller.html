@@ -1,60 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Seller Dashboard - Sewakuy</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Seller Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .item-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+    </style>
 </head>
 
-<body style="background:#F1F1F6;">
+<body style="background:#f7f7f7;">
 
-<div class="container py-5">
-    <h2 class="fw-bold mb-4">📦 Seller Dashboard</h2>
 
-    <a href="index.html#addModal" class="btn btn-success mb-4">+ Tambah Barang</a>
+<!-- HEADER -->
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1">📦 Seller Dashboard</span>
+    <a href="index.html" class="btn btn-outline-light">Kembali ke Home</a>
+  </div>
+</nav>
 
-    <!-- Daftar Barang -->
-    <h4 class="fw-bold">Daftar Barang Anda</h4>
-    <div id="sellerItems" class="mb-5"></div>
 
-    <!-- Tracking Sewa -->
-    <h4 class="fw-bold mt-4">Riwayat Penyewaan</h4>
+<div class="container py-4">
+
+    <!-- ================= BARANG SELLER ================= -->
+    <h3 class="fw-bold mb-3">🛒 Barang Anda</h3>
+
+    <div id="sellerItems" class="row g-3"></div>
+
+
+
+    <hr class="my-5">
+
+
+    <!-- ================= RIWAYAT RENTAL ================= -->
+    <h3 class="fw-bold mb-3">📄 Riwayat Penyewaan</h3>
+
     <div id="rentalList"></div>
+
 </div>
 
+
+
+<!-- ======================= SCRIPT FINAL ======================= -->
 <script>
-// ================= LOAD SELLER ITEMS =================
+/* ============================================================
+   1. LOAD BARANG SELLER
+============================================================ */
 function loadSellerItems() {
-    const items = JSON.parse(localStorage.getItem("sellerItems")) || [];
+    let categoryDB = JSON.parse(localStorage.getItem("categoryDB")) || {};
+
     const container = document.getElementById("sellerItems");
     container.innerHTML = "";
 
-    if (items.length === 0) {
-        container.innerHTML = "<p class='text-muted'>Belum ada barang terdaftar.</p>";
+    let allItems = [];
+
+    // gabungkan semua kategori menjadi satu list
+    for (let cat in categoryDB) {
+        allItems = allItems.concat(categoryDB[cat]);
+    }
+
+    if (allItems.length === 0) {
+        container.innerHTML = "<p class='text-muted'>Belum ada barang yang ditambahkan.</p>";
         return;
     }
 
-    items.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "card shadow-sm mb-3";
+    allItems.forEach(item => {
+        let div = document.createElement("div");
+        div.className = "col-md-4";
 
-        card.innerHTML = `
-            <div class="card-body">
-                <h5>${item.nama}</h5>
-                <p>Kategori: ${item.kategori}</p>
-                <p>Harga: Rp ${item.harga.toLocaleString()}</p>
-                <p>Kondisi: ${item.kondisi}</p>
-                <p>Stok: ${item.stok}</p>
+        div.innerHTML = `
+            <div class="card shadow-sm p-2 h-100">
+                <img src="${item.foto[0]}" class="item-img mb-2">
+                <h5 class="fw-bold">${item.nama}</h5>
+
+                <p class="mb-1"><b>Kategori:</b> ${item.kategori}</p>
+                <p class="mb-1"><b>Harga:</b> Rp ${item.harga.toLocaleString()}</p>
+                <p class="mb-1"><b>Stok:</b> <span id="stok-${item.id}">${item.stok}</span></p>
+
+                <p class="text-muted small mt-2">${item.deskripsi || ""}</p>
             </div>
         `;
-        container.appendChild(card);
+
+        container.appendChild(div);
     });
 }
 
-// ================= LOAD RENTAL HISTORY =================
+
+/* ============================================================
+   2. LOAD RIWAYAT RENTAL
+============================================================ */
 function loadRentalHistory() {
     const history = JSON.parse(localStorage.getItem("rentalHistory")) || [];
-    const sellerItems = JSON.parse(localStorage.getItem("sellerItems")) || [];
     const container = document.getElementById("rentalList");
 
     container.innerHTML = "";
@@ -65,29 +109,38 @@ function loadRentalHistory() {
     }
 
     history.forEach(rent => {
-        const item = sellerItems.find(i => i.id === rent.itemId);
-        if (!item) return;
-
-        const div = document.createElement("div");
+        let div = document.createElement("div");
         div.className = "card mb-3 shadow-sm";
 
         div.innerHTML = `
             <div class="card-body">
-                <h5>${item.nama}</h5>
+                <h5 class="fw-bold">📌 ${rent.itemNama}</h5>
+
                 <p><b>Penyewa:</b> ${rent.penyewa} (${rent.nrp})</p>
                 <p><b>Kontak:</b> ${rent.kontak}</p>
-                <p><b>Periode:</b> ${rent.tglMulai} → ${rent.tglSelesai}</p>
+                <p><b>Tanggal Sewa:</b> ${rent.tglMulai} ➝ ${rent.tglSelesai}</p>
+
                 <p><b>Status:</b> 
                     <span class="badge bg-${
-                        rent.status === 'Sedang Disewa' ? 'warning' :
-                        rent.status === 'Selesai' ? 'success' : 'danger'
-                    }">
-                        ${rent.status}
-                    </span>
+                        rent.status === "Sedang Disewa" ? "warning text-dark" :
+                        rent.status === "Selesai" ? "success" : "danger"
+                    }">${rent.status}</span>
                 </p>
 
-                <button class="btn btn-success btn-sm" onclick="updateStatus('${rent.rentId}', 'Selesai')">Selesai</button>
-                <button class="btn btn-danger btn-sm" onclick="updateStatus('${rent.rentId}', 'Dibatalkan')">Batalkan</button>
+                ${
+                    rent.status === "Sedang Disewa"
+                    ? `
+                        <button class="btn btn-success btn-sm me-2"
+                                onclick="updateStatus('${rent.rentId}', 'Selesai')">
+                            Tandai Selesai
+                        </button>
+                        <button class="btn btn-danger btn-sm"
+                                onclick="updateStatus('${rent.rentId}', 'Dibatalkan')">
+                            Batalkan
+                        </button>
+                    `
+                    : `<span class="text-muted small">Transaksi sudah selesai.</span>`
+                }
             </div>
         `;
 
@@ -95,22 +148,47 @@ function loadRentalHistory() {
     });
 }
 
-// ================= UPDATE STATUS SEWA =================
+
+
+/* ============================================================
+   3. UPDATE STATUS RENTAL + UPDATE STOK BARANG
+============================================================ */
 function updateStatus(rentId, newStatus) {
+
     let history = JSON.parse(localStorage.getItem("rentalHistory")) || [];
-    let sellerItems = JSON.parse(localStorage.getItem("sellerItems")) || [];
+    let categoryDB = JSON.parse(localStorage.getItem("categoryDB")) || {};
 
     const rent = history.find(r => r.rentId === rentId);
-    const item = sellerItems.find(i => i.id === rent.itemId);
+    if (!rent) return alert("Transaksi tidak ditemukan.");
 
-    if (rent.status === "Sedang Disewa" && (newStatus === "Selesai" || newStatus === "Dibatalkan")) {
-        item.stok += 1;
+    const itemId = rent.itemId;
+
+    // Cari barangnya di semua kategori
+    let foundItem = null;
+    let foundCategory = null;
+
+    for (let cat in categoryDB) {
+        let itemIndex = categoryDB[cat].findIndex(i => i.id === itemId);
+        if (itemIndex !== -1) {
+            foundItem = categoryDB[cat][itemIndex];
+            foundCategory = cat;
+            break;
+        }
     }
 
+    if (!foundItem) return alert("Barang tidak ditemukan!");
+
+    // Jika item sedang disewa → status selesai/batal → stok kembali
+    if (rent.status === "Sedang Disewa" && (newStatus === "Selesai" || newStatus === "Dibatalkan")) {
+        foundItem.stok += 1;
+    }
+
+    // Update status rental
     rent.status = newStatus;
 
+    // Save back
+    localStorage.setItem("categoryDB", JSON.stringify(categoryDB));
     localStorage.setItem("rentalHistory", JSON.stringify(history));
-    localStorage.setItem("sellerItems", JSON.stringify(sellerItems));
 
     alert("Status berhasil diperbarui!");
 
@@ -118,10 +196,17 @@ function updateStatus(rentId, newStatus) {
     loadRentalHistory();
 }
 
+
+
+/* ============================================
+   4. ON LOAD
+============================================ */
 loadSellerItems();
 loadRentalHistory();
 </script>
 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
-
