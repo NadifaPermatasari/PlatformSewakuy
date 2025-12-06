@@ -14,7 +14,7 @@
 
   <style>
     body { background:#F7F7FB }
-    .card img { height:140px; object-fit:cover }
+    .card img { height:140px; object-fit:cover; background:#EEE }
   </style>
 </head>
 
@@ -59,6 +59,9 @@
      JAVASCRIPT — SELLER PANEL LOGIC
 =========================================== -->
 <script>
+// Helper placeholder (agar gambar tidak blank & tidak error)
+const placeholderImg = "https://via.placeholder.com/300x200?text=No+Image";
+
 // ==========================
 // LOAD BARANG
 // ==========================
@@ -74,10 +77,14 @@ function loadSellerItems() {
   }
 
   for (const it of items) {
+
+    // FIX: pastikan gambar selalu valid
+    const foto = (it.foto && it.foto[0]) ? it.foto[0] : placeholderImg;
+
     wrap.innerHTML += `
       <div class="col-md-4">
         <div class="card shadow-sm h-100 p-2">
-          <img src="${it.foto?.[0] || ""}" class="card-img-top" alt="">
+          <img src="${foto}" class="card-img-top" alt="Foto Barang">
           <div class="card-body">
             <h5 class="fw-bold">${it.nama}</h5>
             <p><b>Kategori:</b> ${it.kategori}</p>
@@ -114,11 +121,13 @@ function loadRentHistory() {
   for (const r of rentals) {
     const barang = items.find(i => i.id === r.itemId) || {};
 
+    const foto = barang.foto?.[0] || placeholderImg;
+
     wrap.innerHTML += `
       <div class="card mb-3 shadow-sm p-3">
         <div class="row">
           <div class="col-md-3">
-            <img src="${barang.foto?.[0] || ""}" class="w-100 rounded">
+            <img src="${foto}" class="w-100 rounded" alt="Foto Barang">
           </div>
 
           <div class="col-md-9">
@@ -150,20 +159,21 @@ function loadRentHistory() {
 // ==========================
 function editItem(id) {
   let items = JSON.parse(localStorage.getItem("sellerItems") || "[]");
+
   const idx = items.findIndex(i => i.id === id);
   if (idx === -1) return alert("Barang tidak ditemukan.");
 
   const it = items[idx];
 
-  const newName = prompt("Nama barang:", it.nama);
+  const newName  = prompt("Nama barang:", it.nama);
   if (!newName) return;
 
   const newHarga = prompt("Harga:", it.harga);
-  const newStok = prompt("Stok:", it.stok);
+  const newStok  = prompt("Stok:", it.stok);
 
-  it.nama = newName;
+  it.nama  = newName;
   it.harga = Number(newHarga) || it.harga;
-  it.stok = Number(newStok) || it.stok;
+  it.stok  = Number(newStok)  || it.stok;
 
   items[idx] = it;
   localStorage.setItem("sellerItems", JSON.stringify(items));
@@ -171,7 +181,7 @@ function editItem(id) {
   // Update ke categoryDB
   const categoryDB = JSON.parse(localStorage.getItem("categoryDB") || "{}");
   for (const cat in categoryDB) {
-    categoryDB[cat] = categoryDB[cat].map(x => (x.id === id ? it : x));
+    categoryDB[cat] = categoryDB[cat].map(x => x.id === id ? it : x);
   }
   localStorage.setItem("categoryDB", JSON.stringify(categoryDB));
 
@@ -187,19 +197,19 @@ function editItem(id) {
 function deleteItem(id) {
   if (!confirm("Hapus barang ini?")) return;
 
-  // Remove item
+  // Hapus item utama
   let items = JSON.parse(localStorage.getItem("sellerItems") || "[]");
   items = items.filter(i => i.id !== id);
   localStorage.setItem("sellerItems", JSON.stringify(items));
 
-  // Remove from categoryDB
+  // Hapus dari kategori
   let categoryDB = JSON.parse(localStorage.getItem("categoryDB") || "{}");
   for (const cat in categoryDB) {
     categoryDB[cat] = categoryDB[cat].filter(i => i.id !== id);
   }
   localStorage.setItem("categoryDB", JSON.stringify(categoryDB));
 
-  // Remove related rentals
+  // Hapus transaksi terkait
   let rentals = JSON.parse(localStorage.getItem("rentalHistory") || "[]");
   rentals = rentals.filter(r => r.itemId !== id);
   localStorage.setItem("rentalHistory", JSON.stringify(rentals));
@@ -223,12 +233,11 @@ function returnItem(rentId) {
 
   if (rent.status !== "Sedang Disewa") return;
 
-  // Update status
   rent.status = "Dikembalikan";
   rentals[idx] = rent;
   localStorage.setItem("rentalHistory", JSON.stringify(rentals));
 
-  // Restock
+  // restock item
   let items = JSON.parse(localStorage.getItem("sellerItems") || "[]");
   const itIdx = items.findIndex(i => i.id === rent.itemId);
 
@@ -236,11 +245,10 @@ function returnItem(rentId) {
     items[itIdx].stok += 1;
     localStorage.setItem("sellerItems", JSON.stringify(items));
 
-    // update kategori
     const categoryDB = JSON.parse(localStorage.getItem("categoryDB") || "{}");
     for (const cat in categoryDB) {
       categoryDB[cat] = categoryDB[cat].map(
-        x => (x.id === items[itIdx].id ? items[itIdx] : x)
+        x => x.id === items[itIdx].id ? items[itIdx] : x
       );
     }
     localStorage.setItem("categoryDB", JSON.stringify(categoryDB));
@@ -259,7 +267,6 @@ function returnItem(rentId) {
 loadSellerItems();
 loadRentHistory();
 </script>
-
 
 <!-- BOOTSTRAP JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
