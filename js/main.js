@@ -1,81 +1,95 @@
-/* =============================
-   Load semua item dari Firestore
-============================= */
-async function loadAllItems() {
-  const snapshot = await db.collection("items").get();
-  const arr = [];
-  snapshot.forEach(doc => arr.push(doc.data()));
-  return arr;
-}
+/* main.js - FIX FINAL */
 
-/* =============================
-   Buka kategori
-============================= */
-async function openCategory(categoryName) {
-  const categoryModal = new bootstrap.Modal(document.getElementById("categoryModal"));
-  categoryTitle.innerText = categoryName;
-  categoryItems.innerHTML = "";
+// Fungsi ini dipanggil setelah firebaseReady = true
+window.mainReady = function(){
 
-  const allItems = await loadAllItems();
-  const filtered = allItems.filter(i => i.kategori === categoryName);
-
-  if(filtered.length === 0){
-    categoryItems.innerHTML = `<p class='text-center text-muted'>Tidak ada barang.</p>`;
-    return categoryModal.show();
+  if (!window.db){
+    console.warn("Firebase belum siap, retry mainReady...");
+    setTimeout(window.mainReady, 200);
+    return;
   }
 
-  for(const it of filtered){
-    const stok = it.stok || 0;
-    const col = document.createElement("div");
-    col.className = "col-md-4";
+  console.log("main.js START");
 
-    col.innerHTML = `
-      <div class="card shadow-sm h-100 p-2">
-        <img src="${it.foto[0] || ''}" style="height:150px;object-fit:cover;" class="card-img-top">
-        <div class="card-body">
-          <h5 class="fw-bold">${it.nama}</h5>
-          <p class="small mb-1">${it.deskripsi || "-"}</p>
-          <p><b>Harga:</b> Rp ${it.harga.toLocaleString()}</p>
-          <p><b>Stok:</b> ${stok}</p>
+  /* =============================
+      Load semua item 
+  ============================== */
+  async function loadAllItems() {
+    const snapshot = await db.collection("items").get();
+    const arr = [];
+    snapshot.forEach(doc => arr.push({ id: doc.id, ...doc.data() }));
+    return arr;
+  }
 
-          <button class="btn btn-primary w-100"
-            ${stok === 0 ? "disabled" : ""}
-            onclick="openRentFromCategory('${it.id}')">
-            ${stok === 0 ? "Stok Habis" : "Sewa Sekarang"}
-          </button>
+  /* =============================
+      Buka kategori
+  ============================== */
+  window.openCategory = async function(categoryName){
+    const categoryModal = new bootstrap.Modal(document.getElementById("categoryModal"));
+    categoryTitle.innerText = categoryName;
+    categoryItems.innerHTML = "";
+
+    const allItems = await loadAllItems();
+    const filtered = allItems.filter(i => i.kategori === categoryName);
+
+    if(filtered.length === 0){
+      categoryItems.innerHTML = `<p class='text-center text-muted'>Tidak ada barang.</p>`;
+      return categoryModal.show();
+    }
+
+    for(const it of filtered){
+      const stok = it.stok || 0;
+      const foto = it.foto?.[0] || "";
+
+      const col = document.createElement("div");
+      col.className = "col-md-4";
+      col.innerHTML = `
+        <div class="card shadow-sm h-100 p-2">
+          <img src="${foto}" style="height:150px;object-fit:cover;" class="card-img-top">
+          <div class="card-body">
+            <h5 class="fw-bold">${it.nama}</h5>
+            <p class="small mb-1">${it.deskripsi || "-"}</p>
+            <p><b>Harga:</b> Rp ${it.harga.toLocaleString()}</p>
+            <p><b>Stok:</b> ${stok}</p>
+
+            <button class="btn btn-primary w-100"
+              ${stok === 0 ? "disabled" : ""}
+              onclick="openRentFromCategory('${it.id}')">
+              ${stok === 0 ? "Stok Habis" : "Sewa Sekarang"}
+            </button>
+          </div>
         </div>
-      </div>
-    `;
+      `;
+      categoryItems.appendChild(col);
+    }
 
-    categoryItems.appendChild(col);
-  }
+    categoryModal.show();
+  };
 
-  categoryModal.show();
-}
+  /* =============================
+      Buka Rent Modal
+  ============================== */
+  window.openRentFromCategory = async function(id){
+    const snap = await db.collection("items").doc(id).get();
+    if(!snap.exists) return alert("Barang tidak ditemukan");
 
-/* =============================
-   Buka Rent Modal
-============================= */
-async function openRentFromCategory(id) {
-  const docRef = db.collection("items").doc(id);
-  const snap = await docRef.get();
+    const data = snap.data();
+    document.getElementById("rentItemName").innerText = data.nama;
+    document.getElementById("rentHarga").innerText = "Rp " + data.harga.toLocaleString();
 
-  if(!snap.exists){
-    return alert("Barang tidak ditemukan");
-  }
+    new bootstrap.Modal(document.getElementById("rentModal")).show();
+  };
 
-  const data = snap.data();
+  /* =====================================================
+       FIX: tombol home bekerja (sebelumnya TIDAK BISA)
+  ===================================================== */
+  document.getElementById("rentBtn").onclick = () => {
+    openAllItems();
+  };
 
-  document.getElementById("rentItemName").innerText = data.nama;
-  document.getElementById("rentHarga").innerText = "Rp " + data.harga.toLocaleString();
+  document.getElementById("addBtn").onclick = () => {
+    new bootstrap.Modal(document.getElementById("addModal")).show();
+  };
 
-  new bootstrap.Modal("#rentModal").show();
-}
-
-/* ==========================================
-   Buat fungsi ini global agar onclick berfungsi
-========================================== */
-window.openCategory = openCategory;
-window.openRentFromCategory = openRentFromCategory;
-
-console.log("main.js loaded");
+  console.log("main.js READY");
+};
