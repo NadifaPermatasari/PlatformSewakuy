@@ -1,8 +1,3 @@
-/*
-  Firebase compat version for GitHub Pages
-  Mendukung: Auth (opsional), Firestore, Storage
-*/
-
 (function () {
   const load = (url) =>
     new Promise((resolve, reject) => {
@@ -33,13 +28,13 @@
 
       window.db = firebase.firestore();
       window.storage = firebase.storage();
+
+      console.log("Firebase READY");
+
       window.firebaseReady = true;
-
       if (window.mainReady) window.mainReady();
-
-      console.log("Firebase ready.");
     })
     .catch((err) => {
-      console.error("Firebase load error:", err);
+      console.error("ERROR loading Firebase:", err);
     });
 })();
